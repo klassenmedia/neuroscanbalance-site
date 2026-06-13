@@ -288,6 +288,7 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
     height:60px;
     width:100%;
   }
+  /* Reihenfolge im HTML: logo | hamburger | btn-nav | nav-links(fixed) */
   .nav-logo{grid-column:1;justify-self:start;}
   .nav-logo > span:last-child{display:flex;flex-direction:column;line-height:1.2;}
   .nav-logo-name{font-size:13px;}
@@ -299,6 +300,8 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
     white-space:nowrap;
   }
   .btn-nav svg{width:12px;height:12px;}
+  /* nav-links aus dem Grid-Fluss rausnehmen */
+  .nav-links{grid-column:1/-1;}
   .nav-links{
     display:none;
     position:fixed;inset:0;top:calc(60px + env(safe-area-inset-top, 0px));
