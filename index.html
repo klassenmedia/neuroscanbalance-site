@@ -48,7 +48,7 @@
           {"@type":"Question","name":"Was ist NeuroScanBalance?","acceptedAnswer":{"@type":"Answer","text":"NeuroScanBalance ist eine neuroplastische Methode, die über sanfte, feinmotorische Bewegungsimpulse die sensorische Landkarte im Gehirn vervollständigt. Dadurch kann das Gehirn Bewegungen wieder optimal koordinieren – schmerzfrei und ohne Druck."}},
           {"@type":"Question","name":"Für wen ist NeuroScanBalance geeignet?","acceptedAnswer":{"@type":"Answer","text":"Hauptsächlich für Kinder mit Entwicklungsverzögerungen, Zerebralparese, ADHS, Autismus oder Frühgeburtsfolgen – sowie für Erwachsene mit chronischen Schmerzen, nach Schlaganfall oder mit neurologischen Einschränkungen."}},
           {"@type":"Question","name":"Wie läuft eine Behandlung ab?","acceptedAnswer":{"@type":"Answer","text":"Eine Einzelsitzung dauert 25–45 Minuten. Empfohlen wird ein Intensivblock von 3–4 aufeinanderfolgenden Tagen mit 6–12 Einheiten, gefolgt von einer 3–6-wöchigen Integrationspause, in der das Gehirn das Gelernte festigt."}},
-          {"@type":"Question","name":"Übernimmt die Krankenkasse die Kosten?","acceptedAnswer":{"@type":"Answer","text":"NeuroScanBalance ist eine Selbstzahlerleistung. Einige private Krankenversicherungen übernehmen Teile der Kosten. Sprechen Sie uns gerne an."}}
+          {"@type":"Question","name":"Übernimmt die Krankenkasse die Kosten?","acceptedAnswer":{"@type":"Answer","text":"NeuroScanBalance ist eine Selbstzahlerleistung. Einige private Krankenversicherungen übernehmen Teile der Kosten. Sprich mich gerne an."}}
         ]
       }
     ]
@@ -60,7 +60,7 @@
 <!-- COOKIE BANNER -->
 <div id="cookie-banner">
   <p>
-    Wir verwenden Cookies, um Ihnen eine optimale Nutzererfahrung zu bieten. Für Google Maps benötigen wir Ihre Einwilligung.
+    Wir verwenden Cookies, um dir eine optimale Nutzererfahrung zu bieten. Für Google Maps benötigen wir deine Einwilligung.
     Mehr dazu in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
   </p>
   <div class="cookie-btns">
@@ -71,26 +71,31 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#top">
-    <span class="nav-logo-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-    </span>
-    <span>
-      <span class="nav-logo-name">NeuroScanBalance</span>
-      <span class="nav-logo-sub">Bad Essen</span>
-    </span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about">Über mich</a></li>
-    <li><a href="#forwhom">Für wen?</a></li>
-    <li><a href="#howitworks">Ablauf</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
-  </ul>
-  <a class="btn-nav" href="#kontakt">
-    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-    Erstgespräch
-  </a>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">
+      <span class="nav-logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8 2 4 6 4 10c0 5 8 12 8 12s8-7 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+      </span>
+      <span>
+        <span class="nav-logo-name">NeuroScanBalance</span>
+        <span class="nav-logo-sub">Bad Essen</span>
+      </span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about" onclick="closeMenu()">Über mich</a></li>
+      <li><a href="#forwhom" onclick="closeMenu()">Für wen?</a></li>
+      <li><a href="#howitworks" onclick="closeMenu()">Ablauf</a></li>
+      <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
+      <li><a href="#kontakt" onclick="closeMenu()">Kontakt</a></li>
+    </ul>
+    <a class="btn-nav" href="#kontakt">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Termin buchen
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menü öffnen" onclick="toggleMenu()">
+      <svg id="hamburger-icon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -100,38 +105,41 @@
   </div>
   <div class="hero-blob hero-blob-2"></div>
   <div class="hero-content">
-    <p class="section-label">Zertifizierter Trainer · Bad Essen</p>
-    <h1>
-      Wenn Ärzte keine<br>Hoffnung mehr geben –
-      <em>gibt es noch einen Weg.</em>
-    </h1>
-    <p class="hero-desc">
-      NeuroScanBalance nutzt die Lernfähigkeit des Gehirns: Durch sanfte, feinmotorische Impulse entstehen neue neuronale Verbindungen – vollkommen schmerzfrei, ohne Druck, ohne Kraftaufwand.
-    </p>
-    <ul class="hero-checks">
-      <li>
-        <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
-        Für Kinder mit Entwicklungsverzögerungen &amp; neurologischen Einschränkungen
-      </li>
-      <li>
-        <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
-        Für Erwachsene mit chronischen Schmerzen &amp; nach Schlaganfall
-      </li>
-      <li>
-        <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
-        Aus eigener Erfahrung als Vater – nicht nur als Trainer
-      </li>
-    </ul>
-    <a class="btn-hero" href="#kontakt">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      Kostenloses Erstgespräch
-    </a>
-    <p class="hero-note">Unverbindlich · Vertraulich · Auf Augenhöhe</p>
+    <div class="hero-text">
+      <p class="section-label">Zertifizierter Trainer · Bad Essen</p>
+      <h1>
+        Wenn Ärzte keine<br>Hoffnung mehr geben –
+        <em>gibt es noch einen Weg.</em>
+      </h1>
+      <p class="hero-desc">
+        NeuroScanBalance nutzt die Lernfähigkeit des Gehirns: Durch sanfte, feinmotorische Impulse entstehen neue neuronale Verbindungen – vollkommen schmerzfrei, ohne Druck, ohne Kraftaufwand.
+      </p>
+      <ul class="hero-checks">
+        <li>
+          <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
+          Für Kinder mit Entwicklungsverzögerungen &amp; neurologischen Einschränkungen
+        </li>
+        <li>
+          <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
+          Für Erwachsene mit chronischen Schmerzen &amp; nach Schlaganfall
+        </li>
+        <li>
+          <span class="chk"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>
+          Aus eigener Erfahrung als Vater – nicht nur als Trainer
+        </li>
+      </ul>
+      <a class="btn-hero" href="#kontakt">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Termin buchen
+      </a>
+      <p class="hero-note">Unverbindlich · Vertraulich · Auf Augenhöhe</p>
+    </div>
   </div>
 </section>
 
 <!-- STATS BAR -->
 <div class="stats-wrap">
+  <div class="stats-wrap-inner">
   <div class="stats-bar">
     <div class="stat-item">
       <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
@@ -150,10 +158,12 @@
       <div class="stat-text"><strong>Schmerzfrei</strong><span>Ohne Druck &amp; Kraftaufwand</span></div>
     </div>
   </div>
+  </div>
 </div>
 
 <!-- ÜBER MICH -->
 <section class="about" id="about">
+  <div class="about-inner">
   <div class="about-grid">
     <div class="about-img">
       <img src="assets/img/willi-klassen-portrait.jpg" alt="Willi Klassen – zertifizierter NeuroScanBalance Trainer, Bad Essen" onerror="this.style.display='none'">
@@ -172,6 +182,7 @@
       <p class="about-name">Willi Klassen · Zertifizierter NeuroScanBalance-Trainer</p>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- NETFLIX HINWEIS -->
@@ -184,7 +195,7 @@
       Hast du den Netflix-Film <strong>„Luccas Welt"</strong> gesehen und fragst dich, ob es das wirklich gibt?
       <span class="netflix-hint-answer">Ja – genau das biete ich hier in Bad Essen an.</span>
     </p>
-    <a href="#kontakt" class="netflix-hint-cta">Erstgespräch anfragen</a>
+    <a href="#kontakt" class="netflix-hint-cta">Termin buchen</a>
   </div>
 </div>
 
@@ -192,7 +203,7 @@
 <section class="forwhom" id="forwhom">
   <div class="forwhom-blob-r"></div>
   <div class="forwhom-blob-l"></div>
-  <div class="forwhom-inner">
+  <div class="forwhom-inner page-wrap">
     <div class="forwhom-header">
       <p class="section-label">Zielgruppen</p>
       <h2 class="section-title">Für wen ist NeuroScanBalance?</h2>
@@ -227,12 +238,13 @@
         <p>Senioren &amp; Sturzprävention</p>
       </div>
     </div>
-    <p class="forwhom-note">Nicht sicher, ob NeuroScanBalance für Sie oder Ihr Kind passt? <a href="#kontakt" style="color:var(--accent);text-decoration:none;font-weight:600;">Sprechen Sie mich einfach an.</a></p>
+    <p class="forwhom-note">Nicht sicher, ob NeuroScanBalance für dich oder dein Kind passt? <a href="#kontakt" style="color:var(--accent);text-decoration:none;font-weight:600;">Sprich mich einfach an.</a></p>
   </div>
 </section>
 
 <!-- ABLAUF -->
 <section class="howitworks" id="howitworks">
+  <div class="page-wrap">
   <div class="howitworks-hdr">
     <p class="section-label">Der Rhythmus des Fortschritts</p>
     <h2 class="section-title">So funktioniert NeuroScanBalance</h2>
@@ -244,7 +256,7 @@
       <div class="step-num">1</div>
       <h3>Die Einzelsitzung</h3>
       <p>Sanfte, feinmotorische Bewegungsimpulse liefern dem Gehirn neue sensorische Informationen – schmerzfrei, spielerisch, ohne Druck oder Kraftaufwand.</p>
-      <span class="step-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 25–45 Min. pro Einheit</span>
+      <span class="step-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 20–25 Min. pro Einheit</span>
     </div>
     <div class="step">
       <div class="step-num">2</div>
@@ -265,10 +277,12 @@
       <span class="step-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> individuell</span>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials">
+  <div class="page-wrap">
   <p class="section-label">Erfahrungen</p>
   <h2 class="section-title">Was Familien sagen</h2>
   <div class="testi-grid">
@@ -289,10 +303,12 @@
     </div>
   </div>
   <p class="testi-note">Echte Erfahrungsberichte werden nach Freigabe durch die Klienten ergänzt.</p>
+  </div>
 </section>
 
 <!-- FAQ + TERMIN -->
 <section class="faq-section" id="faq">
+  <div class="page-wrap">
   <div class="faq-grid">
     <div>
       <p class="faq-col-label">Häufige Fragen</p>
@@ -316,14 +332,14 @@
       </details>
       <details>
         <summary>Übernimmt die Krankenkasse die Kosten?<span class="faq-plus"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span></summary>
-        <p class="faq-answer">NeuroScanBalance ist eine Selbstzahlerleistung und wird von gesetzlichen Krankenkassen aktuell nicht erstattet. Einige private Zusatzversicherungen übernehmen Teile der Kosten. Sprechen Sie mich gerne an – ich berate Sie dazu im Erstgespräch.</p>
+        <p class="faq-answer">NeuroScanBalance ist eine Selbstzahlerleistung und wird von gesetzlichen Krankenkassen aktuell nicht erstattet. Einige private Zusatzversicherungen übernehmen Teile der Kosten. Sprich mich gerne an – ich berate dich dazu beim ersten Termin.</p>
       </details>
     </div>
 
     <div id="kontakt">
       <p class="faq-col-label">Terminbuchung</p>
       <h2 class="section-title">Termin vereinbaren</h2>
-      <p class="contact-sub">Erzählen Sie mir von Ihrer Situation – ganz unverbindlich. Ich nehme mir Zeit für Sie und Ihre Familie.</p>
+      <p class="contact-sub">Erzähl mir von deiner Situation – ganz unverbindlich. Ich nehme mir Zeit für dich und deine Familie.</p>
 
       <div class="cal-wrap">
         <div class="cal-hdr">
@@ -339,7 +355,7 @@
           <div class="cal-meta">
             <div class="cal-meta-row">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              Ca. 30–45 Minuten
+              Ca. 20–25 Minuten
             </div>
             <div class="cal-meta-row">
               <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -359,14 +375,15 @@
             <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
           </div>
           <div class="cal-grid" id="cal-grid"></div>
-          <button class="btn-book" onclick="window.location.href='mailto:klassen@nsb-badessen.de?subject=Kostenfreies%20Erstgespräch%20NeuroScanBalance'">
+          <button class="btn-book" onclick="window.location.href='mailto:klassen@nsb-badessen.de?subject=Terminanfrage%20NeuroScanBalance'">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            Jetzt Erstgespräch anfragen
+            Jetzt Termin buchen
           </button>
           <p class="cal-powered">Kostenlos &amp; unverbindlich · Antwort innerhalb von 24 Stunden</p>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -375,7 +392,7 @@
   <div class="maps-inner">
     <div class="maps-info">
       <p class="section-label">Standort</p>
-      <h2>So finden Sie mich</h2>
+      <h2>So findest du mich</h2>
       <div class="maps-detail">
         <div class="maps-row">
           <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -398,7 +415,7 @@
     <div class="maps-frame">
       <div class="maps-ph" id="maps-placeholder">
         <svg viewBox="0 0 24 24" width="56" height="56"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="12" cy="10" r="3" fill="none" stroke="var(--accent)" stroke-width="1.5"/></svg>
-        <p>Um die Karte anzuzeigen, akzeptieren Sie bitte unsere Cookies (Google Maps).</p>
+        <p>Um die Karte anzuzeigen, akzeptiere bitte unsere Cookies (Google Maps).</p>
         <button id="maps-consent-btn">Karte aktivieren</button>
       </div>
       <div id="maps-frame-wrap" style="display:none;height:100%;min-height:420px;">
@@ -414,6 +431,7 @@
 
 <!-- FOOTER -->
 <footer>
+  <div class="page-wrap">
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo-row">
@@ -439,7 +457,7 @@
         <li><a href="#forwhom">Für wen?</a></li>
         <li><a href="#howitworks">Ablauf</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#kontakt">Erstgespräch</a></li>
+        <li><a href="#kontakt">Termin buchen</a></li>
       </ul>
     </div>
     <div>
@@ -462,6 +480,7 @@
       <p>Ich bin Trainer geworden,</p>
       <strong>weil ich zuerst Vater war.</strong>
     </div>
+  </div>
   </div>
 </footer>
 

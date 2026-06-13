@@ -32,6 +32,22 @@ function loadMap(){
   }
 })();
 
+// Hamburger-Menü
+function toggleMenu(){
+  const links=document.getElementById('nav-links');
+  const icon=document.getElementById('hamburger-icon');
+  const open=links.classList.toggle('open');
+  icon.innerHTML=open
+    ?'<line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/>'
+    :'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+}
+function closeMenu(){
+  const links=document.getElementById('nav-links');
+  const icon=document.getElementById('hamburger-icon');
+  if(links)links.classList.remove('open');
+  if(icon)icon.innerHTML='<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+}
+
 // Einfacher Kalender-Widget
 (function(){
   const grid=document.getElementById('cal-grid');
@@ -40,7 +56,6 @@ function loadMap(){
   const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   let now=new Date();
   let year=now.getFullYear(),month=now.getMonth();
-  // Freie Slots simulieren
   const freeSlots=[3,7,10,14,17,21,24,28];
 
   function render(){
