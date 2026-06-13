@@ -274,11 +274,15 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
   /* Nav: Hamburger-Layout – Logo links, Hamburger mittig, CTA rechts */
-  nav{padding:0 1rem;height:60px;}
+  nav{
+    padding:0 1rem;height:60px;
+    display:block; /* flex deaktivieren, nav-inner übernimmt */
+  }
   .nav-inner{
     display:grid;
     grid-template-columns:1fr auto 1fr;
     align-items:center;
+    height:60px;
     width:100%;
   }
   .nav-logo{grid-column:1;justify-self:start;}
