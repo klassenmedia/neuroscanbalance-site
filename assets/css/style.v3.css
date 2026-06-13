@@ -275,10 +275,11 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 @media(max-width:960px){
   /* Nav: Logo links · Hamburger mittig · Button rechts – alles in einer Zeile */
   nav{
-    padding:env(safe-area-inset-top, 0px) 1rem 0;
+    padding:0 1rem;
+    padding-top:env(safe-area-inset-top, 0px);
     height:calc(60px + env(safe-area-inset-top, 0px));
     display:flex;
-    align-items:flex-end;
+    align-items:center;
   }
   .nav-inner{
     display:grid;
