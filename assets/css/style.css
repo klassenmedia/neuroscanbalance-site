@@ -2,8 +2,8 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --navy:#2d5a4e;
-  --navy-dark:#1e3d34;
+  --navy:#1b3a5c;
+  --navy-dark:#0f2640;
   --accent:#c4703a;
   --bg:#f7f4ef;
   --bg-white:#ffffff;
