@@ -15,7 +15,7 @@
   --hand:'Caveat',cursive;
 }
 html{scroll-behavior:smooth;}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17px;line-height:1.8;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17px;line-height:1.8;overflow-x:hidden;}
 
 /* ── PAGE WRAPPER (Desktop zentriert auf ~70%) ── */
 .page-wrap{max-width:1100px;margin:0 auto;width:100%;}
@@ -23,11 +23,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17
 /* ── NAV ── */
 nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e8e3dc;padding:0 2.5rem;display:flex;align-items:center;height:68px;}
 .nav-inner{max-width:1100px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
-/* Desktop: Logo links, Links mittig, Button rechts */
-.nav-inner .nav-logo{flex-shrink:0;}
-.nav-inner .nav-links{display:flex;position:static;flex-direction:row;background:none;gap:1.6rem;padding:0;justify-content:center;flex:1;}
-.nav-inner .nav-links a{font-size:13.5px;font-weight:500;color:var(--text-muted);}
-.nav-inner .btn-nav{flex-shrink:0;}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--navy);}
 .hamburger svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;}
 .nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
@@ -278,46 +273,27 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
-  /* Nav: Logo links · Hamburger mittig · Button rechts */
-  nav{
-    padding:0 1rem;
-    padding-top:env(safe-area-inset-top, 0px);
-    height:calc(60px + env(safe-area-inset-top, 0px));
-    display:flex;
-    align-items:center;
-  }
-  /* HTML-Reihenfolge: nav-logo | nav-links | btn-nav | hamburger
-     Per order: logo=1, hamburger=2 (mittig), btn-nav=3 (rechts) */
-  .nav-inner{
-    display:flex;
-    align-items:center;
-    width:100%;
-    height:60px;
-  }
-  .nav-logo{order:1;flex:1;}
+  /* Nav */
+  nav{padding:0 1rem;height:60px;}
+  .nav-inner{display:flex;align-items:center;width:100%;gap:0;}
+  .nav-logo{flex:1;order:1;}
   .nav-logo > span:last-child{display:flex;flex-direction:column;line-height:1.2;}
   .nav-logo-name{font-size:13px;}
   .nav-logo-sub{font-size:10.5px;margin-top:1px;}
-  .hamburger{order:2;display:flex;margin:0 auto;}
-  .btn-nav{order:3;padding:8px 12px;font-size:12px;gap:4px;white-space:nowrap;flex-shrink:0;}
-  .btn-nav svg{width:12px;height:12px;}
-  /* Nav-Links: versteckt, per JS als Fullscreen-Overlay */
+  /* Nav-Links: VERSTECKT auf Mobile – nur per Hamburger öffnen */
   .nav-links{
-    order:99;
-    display:none;
-    position:fixed;
-    top:calc(60px + env(safe-area-inset-top, 0px));
-    left:0;right:0;bottom:0;
-    background:#fff;
-    z-index:200;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:2rem;
-    padding:2rem;
+    display:none !important;
+    position:fixed;top:60px;left:0;right:0;bottom:0;
+    background:#fff;z-index:200;
+    flex-direction:column;align-items:center;justify-content:center;
+    gap:2rem;padding:2rem;
   }
-  .nav-links.open{display:flex;}
-  .nav-links a{font-size:1.2rem;font-weight:600;color:var(--navy);}
+  .nav-links.open{display:flex !important;}
+  .nav-links a{font-size:1.3rem;font-weight:600;color:var(--navy);}
+  /* Hamburger mittig, Button rechts */
+  .hamburger{order:2;display:flex;flex:1;justify-content:center;}
+  .btn-nav{order:3;flex-shrink:0;padding:8px 12px;font-size:12px;gap:4px;white-space:nowrap;}
+  .btn-nav svg{width:12px;height:12px;}
 
   /* Hero */
   .hero{min-height:auto;}
