@@ -97,7 +97,7 @@ h2.section-title{font-size:2rem;font-weight:800;color:var(--navy);line-height:1.
 .about-img-ph svg{width:52px;height:52px;stroke:currentColor;fill:none;stroke-width:1.2;}
 .about-img-ph span{font-size:12px;text-align:center;padding:0 1rem;}
 .about-text p{color:var(--text-muted);margin-bottom:1rem;font-size:15.5px;line-height:1.75;}
-.about-sig{font-family:var(--hand);font-size:1.5rem;color:var(--accent);line-height:1.5;margin:1.5rem 0 .4rem;}
+.about-sig{font-family:var(--hand);font-size:2rem;color:var(--accent);line-height:1.5;margin:1.5rem 0 .4rem;}
 .about-name{font-weight:700;color:var(--navy);font-size:15px;}
 
 /* ── FOR WHOM ── */
@@ -250,26 +250,74 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
-  nav{padding:0 1.2rem;}
+  /* Nav: Logo-Text zweizeilig, Button kompakt */
+  nav{padding:0 1rem;height:60px;}
+  .nav-logo-name{font-size:13px;}
+  .nav-logo-sub{display:block;font-size:11px;}
   .nav-links{display:none;}
-  .hero-content{padding:3rem 1.5rem 3rem 2rem;max-width:100%;}
-  .hero-bg img{width:100%;opacity:.15;}
-  .hero-bg::after{background:linear-gradient(to right, var(--bg) 60%, rgba(245,242,237,.9) 80%, var(--bg) 100%);}
-  .stats-wrap{padding:0 1.2rem;margin-top:-20px;}
-  .stats-bar{grid-template-columns:repeat(2,1fr);}
-  .about,.forwhom,.howitworks,.testimonials,.faq-section{padding:3rem 1.5rem;}
+  .btn-nav{padding:8px 13px;font-size:12.5px;gap:5px;}
+  .btn-nav svg{width:13px;height:13px;}
+
+  /* Hero: Bild als schwacher Hintergrund, volle Breite */
+  .hero{min-height:auto;}
+  .hero-content{padding:2.5rem 1.4rem 2.8rem;max-width:100%;}
+  .hero-bg img{width:100%;opacity:.12;}
+  .hero-bg::after{background:linear-gradient(to bottom, var(--bg) 0%, rgba(245,242,237,.95) 70%, var(--bg) 100%);}
+  .hero h1{font-size:1.8rem;}
+  .hero h1 em{font-size:2.2rem;}
+  .hero-desc{font-size:15px;}
+
+  /* Stats */
+  .stats-wrap{padding:0 1rem;margin-top:-16px;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);padding:1.2rem 1.2rem;gap:1rem;}
+
+  /* Sektionen */
+  .about,.forwhom,.howitworks,.testimonials,.faq-section{padding:2.5rem 1.2rem;}
   .about-grid{grid-template-columns:1fr;}
+  .about-sig{font-size:1.8rem !important;} /* Handschrift-Zitat größer */
+
+  /* Für wen */
   .forwhom-grid{grid-template-columns:repeat(3,1fr);}
+
+  /* Ablauf */
   .steps{grid-template-columns:repeat(2,1fr);}
   .steps-line{display:none;}
+
+  /* Testimonials */
   .testi-grid{grid-template-columns:1fr;}
+
+  /* FAQ + Kalender */
   .faq-grid{grid-template-columns:1fr;gap:2.5rem;}
+
+  /* Maps */
   .maps-inner{grid-template-columns:1fr;}
-  .maps-info{padding:2.5rem 1.5rem;}
-  footer{padding:2rem 1.5rem;}
+  .maps-info{padding:2.5rem 1.2rem;}
+  .maps-frame{min-height:300px;}
+  .maps-frame iframe,.maps-ph{min-height:300px;}
+
+  /* Footer */
+  footer{padding:2rem 1.2rem;}
   .footer-grid{grid-template-columns:1fr;gap:1.8rem;}
   .footer-btm{flex-direction:column;gap:.8rem;text-align:center;}
   .footer-tag p,.footer-tag strong{text-align:center;}
+
+  /* Cookie Banner */
   #cookie-banner{flex-direction:column;align-items:flex-start;padding:.9rem 1.2rem;}
-  .legal-content{padding:2rem 1.5rem 4rem;}
+
+  /* Legal Seiten */
+  .legal-content{padding:2rem 1.2rem 4rem;}
+}
+
+@media(max-width:480px){
+  /* Sehr kleine Screens */
+  .nav-logo-name{font-size:12.5px;}
+  .btn-nav span{display:none;} /* Nur Icon auf sehr kleinen Screens */
+  .hero h1{font-size:1.6rem;}
+  .hero h1 em{font-size:2rem;}
+  .stats-bar{grid-template-columns:1fr 1fr;gap:.8rem;padding:1rem;}
+  .stat-text strong{font-size:12.5px;}
+  .forwhom-grid{grid-template-columns:repeat(2,1fr);}
+  h2.section-title{font-size:1.6rem;}
+  .about-sig{font-size:1.7rem !important;}
+  .cal-wrap{font-size:14px;}
 }
