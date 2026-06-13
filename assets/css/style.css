@@ -97,7 +97,7 @@ h2.section-title{font-size:2rem;font-weight:800;color:var(--navy);line-height:1.
 .about-img-ph svg{width:52px;height:52px;stroke:currentColor;fill:none;stroke-width:1.2;}
 .about-img-ph span{font-size:12px;text-align:center;padding:0 1rem;}
 .about-text p{color:var(--text-muted);margin-bottom:1rem;font-size:15.5px;line-height:1.75;}
-.about-sig{font-family:var(--hand);font-size:2rem;color:var(--accent);line-height:1.5;margin:1.5rem 0 .4rem;}
+.about-sig{font-family:var(--hand);font-size:2rem;color:var(--navy);line-height:1.4;margin:1.5rem 0 .4rem;word-break:keep-all;hyphens:none;}
 .about-name{font-weight:700;color:var(--navy);font-size:15px;}
 
 /* ── FOR WHOM ── */
