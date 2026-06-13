@@ -21,8 +21,13 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17
 .page-wrap{max-width:1100px;margin:0 auto;width:100%;}
 
 /* ── NAV ── */
-nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e8e3dc;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;height:68px;}
+nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e8e3dc;padding:0 2.5rem;display:flex;align-items:center;height:68px;}
 .nav-inner{max-width:1100px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
+/* Desktop: Logo links, Links mittig, Button rechts */
+.nav-inner .nav-logo{flex-shrink:0;}
+.nav-inner .nav-links{display:flex;position:static;flex-direction:row;background:none;gap:1.6rem;padding:0;justify-content:center;flex:1;}
+.nav-inner .nav-links a{font-size:13.5px;font-weight:500;color:var(--text-muted);}
+.nav-inner .btn-nav{flex-shrink:0;}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--navy);}
 .hamburger svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;}
 .nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
