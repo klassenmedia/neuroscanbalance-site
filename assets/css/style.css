@@ -298,15 +298,15 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
   .nav-logo > span:last-child{display:flex;flex-direction:column;line-height:1.2;}
   .nav-logo-name{font-size:13px;}
   .nav-logo-sub{font-size:10.5px;margin-top:1px;}
-  .hamburger{grid-column:2;justify-self:center;display:flex;}
+  .hamburger{grid-column:2;grid-row:1;justify-self:center;display:flex;order:2;}
   .btn-nav{
-    grid-column:3;justify-self:end;
+    grid-column:3;grid-row:1;justify-self:end;
     padding:8px 12px;font-size:12px;gap:4px;
-    white-space:nowrap;
+    white-space:nowrap;order:3;
   }
   .btn-nav svg{width:12px;height:12px;}
-  /* nav-links aus dem Grid-Fluss rausnehmen */
-  .nav-links{grid-column:1/-1;}
+  /* nav-links aus dem Grid-Fluss nehmen – sie sind fixed */
+  .nav-links{display:none;order:4;}
   .nav-links{
     display:none;
     position:fixed;inset:0;top:calc(60px + env(safe-area-inset-top, 0px));
