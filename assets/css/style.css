@@ -305,8 +305,16 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
     white-space:nowrap;order:3;
   }
   .btn-nav svg{width:12px;height:12px;}
-  /* nav-links aus dem Grid-Fluss nehmen – sie sind fixed */
-  .nav-links{display:none;order:4;}
+  /* nav-links verstecken, nur per JS öffnen */
+  .nav-links{
+    display:none;
+    position:fixed;inset:0;top:calc(60px + env(safe-area-inset-top, 0px));
+    background:#fff;z-index:200;
+    flex-direction:column;align-items:center;justify-content:center;
+    gap:2rem;padding:2rem;
+  }
+  .nav-links.open{display:flex;}
+  .nav-links a{font-size:1.2rem;font-weight:600;color:var(--navy);}
   .nav-links{
     display:none;
     position:fixed;inset:0;top:calc(60px + env(safe-area-inset-top, 0px));
