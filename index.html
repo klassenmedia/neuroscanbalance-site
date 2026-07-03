@@ -366,20 +366,19 @@
               +49 151 17 20 03 85
             </div>
           </div>
-          <div class="cal-month-row">
-            <button class="cal-nav-btn" id="cal-prev">&#8249;</button>
-            <span id="cal-month">Juni 2025</span>
-            <button class="cal-nav-btn" id="cal-next">&#8250;</button>
+
+          <!-- Calendly Inline Widget – lädt erst nach Consent -->
+          <div id="calendly-consent" class="cal-consent">
+            <p>Um direkt online einen Termin zu buchen, wird der Kalender von <strong>Calendly</strong> geladen. Dabei wird eine Verbindung zu Calendly hergestellt.</p>
+            <button id="calendly-load-btn" class="btn-book">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Kalender laden &amp; Termin buchen
+            </button>
+            <p class="cal-powered">Mit Klick stimmst du dem Laden von Calendly zu · <a href="datenschutz.html">Datenschutz</a></p>
           </div>
-          <div class="cal-days-hdr">
-            <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
-          </div>
-          <div class="cal-grid" id="cal-grid"></div>
-          <button class="btn-book" onclick="window.location.href='mailto:klassen@nsb-badessen.de?subject=Terminanfrage%20NeuroScanBalance'">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            Jetzt Termin buchen
-          </button>
-          <p class="cal-powered">Kostenlos &amp; unverbindlich · Antwort innerhalb von 24 Stunden</p>
+          <div id="calendly-embed" class="calendly-inline-widget"
+               data-url="https://calendly.com/klassen-nsb-badessen"
+               style="min-width:280px;height:640px;display:none;"></div>
         </div>
       </div>
     </div>

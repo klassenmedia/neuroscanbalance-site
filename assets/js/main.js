@@ -48,50 +48,38 @@ function closeMenu(){
   if(icon)icon.innerHTML='<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
 }
 
-// Einfacher Kalender-Widget
+// Calendly – lädt erst nach Klick (DSGVO-konform)
 (function(){
-  const grid=document.getElementById('cal-grid');
-  if(!grid)return;
-  const monthLabel=document.getElementById('cal-month');
-  const months=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-  let now=new Date();
-  let year=now.getFullYear(),month=now.getMonth();
-  const freeSlots=[3,7,10,14,17,21,24,28];
-
-  function render(){
-    if(monthLabel)monthLabel.textContent=months[month]+' '+year;
-    const first=new Date(year,month,1).getDay();
-    const offset=(first===0?6:first-1);
-    const days=new Date(year,month+1,0).getDate();
-    grid.innerHTML='';
-    for(let i=0;i<offset;i++){
-      const e=document.createElement('div');
-      e.className='cal-day empty';
-      grid.appendChild(e);
-    }
-    const todayIs=(year===now.getFullYear()&&month===now.getMonth())?now.getDate():-1;
-    for(let d=1;d<=days;d++){
-      const e=document.createElement('div');
-      e.textContent=d;
-      let cls='cal-day';
-      if(d===todayIs)cls+=' today';
-      else if(freeSlots.includes(d))cls+=' slot';
-      e.className=cls;
-      if(cls.includes('slot')){
-        e.title='Termin verfügbar';
-        e.addEventListener('click',function(){
-          document.querySelectorAll('.cal-day').forEach(x=>x.classList.remove('booked'));
-          e.classList.remove('slot');e.classList.add('booked');
-        });
+  const btn=document.getElementById('calendly-load-btn');
+  if(!btn)return;
+  let loaded=false;
+  btn.addEventListener('click',function(){
+    if(loaded)return;
+    loaded=true;
+    const consent=document.getElementById('calendly-consent');
+    const embed=document.getElementById('calendly-embed');
+    // Calendly-CSS + Script nachladen
+    const link=document.createElement('link');
+    link.rel='stylesheet';
+    link.href='https://assets.calendly.com/assets/external/widget.css';
+    document.head.appendChild(link);
+    const script=document.createElement('script');
+    script.src='https://assets.calendly.com/assets/external/widget.js';
+    script.async=true;
+    script.onload=function(){
+      if(consent)consent.style.display='none';
+      if(embed){
+        embed.style.display='block';
+        if(window.Calendly){
+          window.Calendly.initInlineWidget({
+            url:embed.getAttribute('data-url'),
+            parentElement:embed
+          });
+        }
       }
-      grid.appendChild(e);
-    }
-  }
-  render();
-  const prev=document.getElementById('cal-prev');
-  const next=document.getElementById('cal-next');
-  if(prev)prev.addEventListener('click',function(){month--;if(month<0){month=11;year--;}render();});
-  if(next)next.addEventListener('click',function(){month++;if(month>11){month=0;year++;}render();});
+    };
+    document.body.appendChild(script);
+  });
 })();
 
 // Smooth scroll für Anker-Links
