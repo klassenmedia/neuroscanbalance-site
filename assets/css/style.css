@@ -25,7 +25,9 @@ nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e
 .nav-inner{max-width:1100px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--navy);}
 .hamburger svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;}
-.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-img{height:40px;width:auto;display:block;}
+.nav-logo-city{font-size:12px;color:var(--text-muted);font-weight:600;border-left:1px solid #e0dbd3;padding-left:10px;line-height:1;}
 .nav-logo-icon{width:34px;height:34px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .nav-logo-icon svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:1.8;}
 .nav-logo-name{font-size:14px;font-weight:700;color:var(--navy);line-height:1.2;}
@@ -106,6 +108,9 @@ h2.section-title{font-size:2.2rem;font-weight:800;color:var(--navy);line-height:
 .about-text p{color:var(--text-muted);margin-bottom:1.1rem;font-size:16.5px;line-height:1.8;}
 .about-text p.about-sig{font-family:var(--hand);font-size:2.4rem !important;color:var(--accent) !important;line-height:1.4;margin:2rem 0 .5rem;word-break:keep-all;hyphens:none;}
 .about-name{font-weight:700;color:var(--navy);font-size:15px;}
+.about-badge{display:flex;align-items:center;gap:14px;margin-top:1.4rem;padding:1rem 1.2rem;background:var(--bg-section);border-radius:12px;max-width:420px;}
+.about-badge-img{height:42px;width:auto;flex-shrink:0;}
+.about-badge span{font-size:12.5px;color:var(--text-muted);line-height:1.5;font-weight:600;}
 
 /* ── FOR WHOM ── */
 .forwhom{background:var(--bg-section);padding:5rem 2rem;position:relative;overflow:hidden;}
@@ -295,6 +300,9 @@ footer{background:#0d2137;padding:3rem 2rem 1.8rem;}
 .footer-logo-row{display:flex;align-items:center;gap:9px;margin-bottom:.9rem;}
 .footer-logo-text{font-size:14px;font-weight:700;color:#fff;line-height:1.2;}
 .footer-logo-sub{font-size:11px;color:rgba(255,255,255,.4);}
+.footer-logo-link{display:inline-block;background:#fff;border-radius:10px;padding:12px 16px;margin-bottom:1.1rem;transition:opacity .2s;}
+.footer-logo-link:hover{opacity:.85;}
+.footer-logo-img{height:44px;width:auto;display:block;}
 .footer-brand p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:1rem;}
 .footer-contacts{list-style:none;display:flex;flex-direction:column;gap:7px;}
 .footer-contacts li{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:rgba(255,255,255,.5);}
@@ -323,10 +331,9 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
   /* Nav */
   nav{padding:0 1rem;height:60px;}
   .nav-inner{display:flex;align-items:center;width:100%;gap:0;}
-  .nav-logo{flex:1;order:1;}
-  .nav-logo > span:last-child{display:flex;flex-direction:column;line-height:1.2;}
-  .nav-logo-name{font-size:13px;}
-  .nav-logo-sub{font-size:10.5px;margin-top:1px;}
+  .nav-logo{flex:1;order:1;gap:7px;}
+  .nav-logo-img{height:28px;}
+  .nav-logo-city{font-size:10.5px;padding-left:7px;}
   /* Nav-Links: VERSTECKT auf Mobile – nur per Hamburger öffnen */
   .nav-links{
     display:none !important;
@@ -417,7 +424,8 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 }
 
 @media(max-width:480px){
-  .nav-logo-name{font-size:12.5px;}
+  .nav-logo-img{height:26px;}
+  .nav-logo-city{display:none;}
   .hero h1{font-size:1.6rem;}
   .hero h1 em{font-size:2rem;}
   .stats-bar{grid-template-columns:1fr 1fr;gap:.8rem;padding:1rem;}
