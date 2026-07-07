@@ -5,6 +5,25 @@ AddDefaultCharset UTF-8
 Options -MultiViews
 
 # ══════════════════════════════════════════════════════════
+# KANONISCHE DOMAIN ERZWINGEN
+# Verhindert doppelten Inhalt (SEO) durch http:// bzw. www.-Varianten.
+# Ziel: https://neuroscanbalance-badessen.de/ (siehe <link rel="canonical">)
+# Maximal 2 Redirects, keine Schleife: nach jedem Schritt greift die
+# jeweilige RewriteCond nicht mehr erneut.
+# ══════════════════════════════════════════════════════════
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) HTTP -> HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2) www. -> ohne www (kanonische Domain)
+  RewriteCond %{HTTP_HOST} ^www\.neuroscanbalance-badessen\.de$ [NC]
+  RewriteRule ^ https://neuroscanbalance-badessen.de%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ══════════════════════════════════════════════════════════
 # KOMPRESSION KOMPLETT ABSCHALTEN
 # ALL-INKL liefert kaputte gzip-Streams (leere/defekte Antwort)
 # → weiße Seite. Kompression bringt hier nur ~26 KB, verursacht

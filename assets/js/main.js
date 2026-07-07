@@ -52,6 +52,18 @@ function closeMenu(){
 (function(){
   const slides=document.querySelectorAll('.hero-slide');
   if(slides.length<2)return;
+
+  // Slide 1 laedt sofort (LCP); Slides 2-10 tragen nur data-bg und werden
+  // erst nachgeladen, wenn der Hauptthread frei ist (schont Ladezeit/LCP).
+  function lazyLoadSlides(){
+    slides.forEach(function(s){
+      var bg=s.getAttribute('data-bg');
+      if(bg){ s.style.backgroundImage="url('"+bg+"')"; s.removeAttribute('data-bg'); }
+    });
+  }
+  if('requestIdleCallback' in window){ requestIdleCallback(lazyLoadSlides,{timeout:1500}); }
+  else { window.addEventListener('load', lazyLoadSlides); }
+
   let idx=0;
   slides[0].classList.add('is-active');
   setInterval(function(){
