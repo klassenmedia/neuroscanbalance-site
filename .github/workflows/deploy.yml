@@ -1,0 +1,44 @@
+name: Deploy zu All-Inkl (FTP)
+
+# Lädt die Seite bei jedem Push auf main automatisch per FTP auf den
+# All-Inkl-Webspace. Manueller Start ist über den Reiter "Actions" ->
+# "Deploy zu All-Inkl (FTP)" -> "Run workflow" ebenfalls möglich.
+#
+# Benötigte GitHub-Secrets (Repo -> Settings -> Secrets and variables -> Actions):
+#   FTP_SERVER    z. B. w01xxxxx.kasserver.com   (aus dem KAS unter "FTP-Zugänge")
+#   FTP_USERNAME  der FTP-Benutzername
+#   FTP_PASSWORD  das FTP-Passwort
+# Optionale Repo-Variable (gleiche Seite, Reiter "Variables"):
+#   FTP_SERVER_DIR  Zielordner auf dem Webspace, Standard "./"
+#                   (bei All-Inkl oft "/" bzw. der Domain-Ordner, z. B. "/neuroscanbalance-badessen.de/")
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Per FTP hochladen
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          protocol: ftps
+          # Dev-/Repo-Dateien und Rohdaten nicht auf den Webspace laden
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.gitignore
+            **/.DS_Store
+            **/Bilder/**
+            **/README.md
+            test.html
