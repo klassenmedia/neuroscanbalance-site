@@ -12,11 +12,19 @@ name: Deploy zu All-Inkl (FTP)
 # Zielordner auf dem Webspace: Der FTP-Login landet im Account-Root
 # (z. B. w021a97b/); die eigentliche Domain liegt eine Ebene tiefer im
 # Ordner "neuroscanbalance-badessen.de/" -> daher server-dir unten fest gesetzt.
+#
+# Nach jedem erfolgreichen Deploy wird der Commit automatisch mit einem
+# Zeitstempel-Tag markiert (live-JJJJ-MM-TT-HHMMSS, Zeitzone Berlin).
+# Dadurch ist im Reiter "Tags" jederzeit nachvollziehbar, welche Version
+# wann live gegangen ist – und ein Rollback ist gezielt möglich.
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write   # nötig, um Release-Tags pushen zu können
 
 jobs:
   ftp-deploy:
@@ -40,6 +48,19 @@ jobs:
             **/.github/**
             **/.gitignore
             **/.DS_Store
+            **/.claude/**
             **/Bilder/**
             **/README.md
+            **/CLAUDE.md
             test.html
+
+      - name: Live-Version taggen (Zeitstempel)
+        if: success()
+        run: |
+          TS=$(TZ=Europe/Berlin date +'%Y-%m-%d-%H%M%S')
+          TAG="live-$TS"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Live-Deploy $TS (Europe/Berlin)"
+          git push origin "$TAG"
+          echo "Getaggt als: $TAG"
