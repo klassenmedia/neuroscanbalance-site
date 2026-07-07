@@ -21,14 +21,22 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:17
 .page-wrap{max-width:1100px;margin:0 auto;width:100%;}
 
 /* ── NAV ── */
+/* Hinweis: backdrop-filter liegt bewusst auf ::before statt auf nav selbst –
+   backdrop-filter auf nav würde für position:fixed-Kinder (z.B. das mobile
+   Menü .nav-links.open) einen eigenen Containing Block erzeugen und das
+   Menü dadurch auf die Nav-Höhe zusammenquetschen statt es vollflächig
+   anzuzeigen. */
 nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.72);
-  -webkit-backdrop-filter:blur(18px) saturate(1.4);
-  backdrop-filter:blur(18px) saturate(1.4);
   border-bottom:1px solid rgba(232,227,220,.6);
   padding:0 2.5rem;display:flex;align-items:center;height:68px;
   box-shadow:0 4px 20px -8px rgba(27,58,92,.12);
+}
+nav::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:rgba(255,255,255,.72);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  backdrop-filter:blur(18px) saturate(1.4);
 }
 .nav-inner{max-width:1100px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--navy);}
