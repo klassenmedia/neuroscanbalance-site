@@ -153,7 +153,8 @@ nav{
     0 18px 44px -14px rgba(14,107,138,.5),
     0 8px 20px -10px rgba(0,0,0,.2);
 }
-.stat-item{display:flex;align-items:center;gap:14px;}
+.stat-item{display:flex;align-items:center;gap:14px;min-width:0;}
+.stat-text{min-width:0;overflow-wrap:break-word;}
 .stat-icon{
   width:46px;height:46px;border-radius:50%;
   border:1px solid rgba(255,255,255,.25);
@@ -523,7 +524,7 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 
   /* Stats */
   .stats-wrap{padding:0 1rem;margin-top:-16px;}
-  .stats-bar{grid-template-columns:repeat(2,1fr);padding:1.2rem 1.2rem;gap:1rem;}
+  .stats-bar{grid-template-columns:repeat(2,minmax(0,1fr));padding:1.2rem 1.2rem;gap:1rem;}
 
   /* Sektionen */
   .about,.forwhom,.howitworks,.testimonials,.faq-section,.intensiv{padding:2.8rem 1.2rem;}
@@ -589,7 +590,7 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
   .nav-logo-city{display:none;}
   .hero h1{font-size:1.6rem;}
   .hero h1 em{font-size:2rem;}
-  .stats-bar{grid-template-columns:1fr 1fr;gap:.8rem;padding:1rem;}
+  .stats-bar{grid-template-columns:1fr;gap:.9rem;padding:1.2rem 1.3rem;}
   .stat-text strong{font-size:12.5px;}
   h2.section-title{font-size:1.65rem;}
   .about-sig{font-size:2rem !important;}
