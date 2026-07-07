@@ -8,9 +8,10 @@ name: Deploy zu All-Inkl (FTP)
 #   FTP_SERVER    z. B. w01xxxxx.kasserver.com   (aus dem KAS unter "FTP-Zugänge")
 #   FTP_USERNAME  der FTP-Benutzername
 #   FTP_PASSWORD  das FTP-Passwort
-# Optionale Repo-Variable (gleiche Seite, Reiter "Variables"):
-#   FTP_SERVER_DIR  Zielordner auf dem Webspace, Standard "./"
-#                   (bei All-Inkl oft "/" bzw. der Domain-Ordner, z. B. "/neuroscanbalance-badessen.de/")
+#
+# Zielordner auf dem Webspace: Der FTP-Login landet im Account-Root
+# (z. B. w021a97b/); die eigentliche Domain liegt eine Ebene tiefer im
+# Ordner "neuroscanbalance-badessen.de/" -> daher server-dir unten fest gesetzt.
 
 on:
   push:
@@ -30,7 +31,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ vars.FTP_SERVER_DIR || './' }}
+          server-dir: /neuroscanbalance-badessen.de/
           protocol: ftps
           # Dev-/Repo-Dateien und Rohdaten nicht auf den Webspace laden
           exclude: |
