@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════
+   NeuroScanBalance – High-End Animations Layer · EDEL-EDITION
+   Parallax · Editorial Reveals · Shimmer · Spotlight · Grain
+   Additiv: berührt keine bestehenden Styles, nur Erweiterung.
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  --ease-expo:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── 1) HERO: Ken-Burns-Zoom, langsam & majestätisch ── */
+.hero-slide{will-change:transform,opacity;}
+.hero-slide.is-active{animation:kenburns 10s var(--ease-expo) forwards;}
+@keyframes kenburns{
+  0%{transform:scale(1) translate(0,0);}
+  100%{transform:scale(1.08) translate(-1%, -0.7%);}
+}
+
+/* Feiner Film-Grain über dem Hero (unter dem Text) – edler Kino-Look */
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity:.045;mix-blend-mode:overlay;
+}
+
+/* Sanfte Vignette für Tiefe */
+.hero-overlay{
+  box-shadow:inset 0 -120px 160px -80px rgba(6,28,40,.55), inset 0 80px 120px -80px rgba(6,28,40,.4);
+}
+
+/* ── 2) HERO: gestaffelter Editorial-Einzug (Blur-in) ── */
+.hero .section-label,
+.hero h1,
+.hero-desc,
+.hero-checks,
+.hero .btn-hero,
+.hero-trust{
+  opacity:0;
+  transform:translateY(30px);
+  filter:blur(8px);
+  animation:heroIn 1.1s var(--ease-expo) forwards;
+}
+.hero .section-label{animation-delay:.15s;}
+.hero h1{animation-delay:.32s;}
+.hero-desc{animation-delay:.55s;}
+.hero-checks{animation-delay:.72s;}
+.hero .btn-hero{animation-delay:.9s;}
+.hero-trust{animation-delay:1.05s;}
+@keyframes heroIn{
+  60%{filter:blur(0);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+
+/* Handschrift-Zeile: warmer Gold-Schimmer, dezent & langsam */
+.hero h1 em{
+  background:linear-gradient(110deg,#f0a868 0%,#f0a868 38%,#ffe3bd 50%,#f0a868 62%,#f0a868 100%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:shimmer 7s ease-in-out 2s infinite;
+}
+@keyframes shimmer{
+  0%,55%,100%{background-position:110% 0;}
+  25%{background-position:-10% 0;}
+}
+
+/* ── 3) Eleganter Scroll-Hint unten im Hero ── */
+.scroll-hint{
+  position:absolute;left:50%;bottom:26px;z-index:4;
+  transform:translateX(-50%);
+  width:1px;height:56px;overflow:hidden;
+  opacity:0;animation:heroIn 1s var(--ease-expo) 1.4s forwards;
+  transition:opacity .4s ease;
+}
+.scroll-hint::before{
+  content:"";position:absolute;left:0;top:-56px;width:1px;height:56px;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.85));
+  animation:hintDrop 2.2s var(--ease-expo) infinite;
+}
+@keyframes hintDrop{
+  0%{top:-56px;}55%{top:56px;}100%{top:56px;}
+}
+.scroll-hint.is-hidden{opacity:0 !important;pointer-events:none;}
+
+/* ── 4) SCROLL-REVEALS: Editorial (weich, mit Blur-Settle) ── */
+.rv{
+  opacity:0;
+  transform:translateY(38px);
+  transition:opacity 1s var(--ease-expo), transform 1s var(--ease-expo), filter 1s var(--ease-expo);
+  transition-delay:var(--rv-delay,0s);
+  will-change:opacity,transform;
+}
+.rv.rv-in{opacity:1;transform:translateY(0);}
+
+.rv-left{transform:translateX(-48px);}
+.rv-left.rv-in{transform:translateX(0);}
+.rv-right{transform:translateX(48px);}
+.rv-right.rv-in{transform:translateX(0);}
+.rv-scale{transform:scale(.94) translateY(22px);}
+.rv-scale.rv-in{transform:scale(1) translateY(0);}
+.rv-blur{filter:blur(10px);transform:translateY(16px);}
+.rv-blur.rv-in{filter:blur(0);transform:translateY(0);}
+
+/* ── 5) SECTION-TITLES: Blur-Settle + wachsender Goldstrich ── */
+h2.section-title.rv{filter:blur(6px);letter-spacing:.04em;}
+h2.section-title.rv-in{filter:blur(0);letter-spacing:0;}
+h2.section-title{position:relative;transition:letter-spacing 1.1s var(--ease-expo), filter 1s var(--ease-expo), opacity 1s var(--ease-expo), transform 1s var(--ease-expo);}
+h2.section-title::after{
+  content:"";display:block;margin:.55rem auto 0;
+  width:0;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--accent) 30%,#e8b98a 50%,var(--accent) 70%,transparent);
+  transition:width 1.2s var(--ease-expo) .35s;
+}
+h2.section-title.rv-in::after{width:110px;}
+
+/* ── 6) ÜBER-MICH-Bild: doppelter Editorial-Rahmen ── */
+.about-img{position:relative;}
+.about-img{outline:1px solid rgba(196,112,58,.0);outline-offset:14px;transition:outline-color 1.2s ease .5s;}
+.about-img.rv-in{outline-color:rgba(196,112,58,.35);}
+
+/* ── 7) KARTEN: Cursor-Spotlight (folgt der Maus) + Goldkante ── */
+@media(hover:hover){
+  .fw-group,.reports,.maps-info,.intensiv-dates{position:relative;}
+  .fw-group::after,.reports::after,.maps-info::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(196,112,58,.09),transparent 65%);
+    opacity:0;transition:opacity .45s ease;
+  }
+  .fw-group:hover::after,.reports:hover::after,.maps-info:hover::after{opacity:1;}
+  .intensiv-dates::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.10),transparent 65%);
+    opacity:0;transition:opacity .45s ease;
+  }
+  .intensiv-dates:hover::after{opacity:1;}
+
+  /* Feine Goldkante beim Hover */
+  .fw-group{transition:transform .5s var(--ease-expo), box-shadow .5s ease, border-color .5s ease;}
+  .fw-group:hover{
+    transform:translateY(-7px);
+    border-color:rgba(196,112,58,.45);
+  }
+
+  /* Ablauf-Kugeln: federnder Sprung */
+  .step-num{transition:transform .5s var(--ease-spring), box-shadow .5s ease;}
+  .step:hover .step-num{transform:translateY(-7px) scale(1.14) rotate(-3deg);}
+
+  /* Termin-Zeilen gleiten */
+  .intensiv-dates li{transition:transform .3s var(--ease-expo);}
+  .intensiv-dates li:hover{transform:translateX(7px);}
+
+  /* Nav-Links: eleganter Unterstrich wächst von links */
+  .nav-links a{position:relative;}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:-4px;height:1.5px;width:0;
+    background:linear-gradient(90deg,var(--accent),#e8b98a);
+    transition:width .45s var(--ease-expo);
+  }
+  .nav-links a:hover::after{width:100%;}
+}
+
+/* ── 8) STATS: schwebende Icons + Count-up-Ziffer ── */
+.stat-icon{transition:transform .45s var(--ease-spring), box-shadow .45s ease;}
+.stat-item:hover .stat-icon{transform:translateY(-5px) scale(1.1);box-shadow:0 1px 0 rgba(255,255,255,.3) inset,0 12px 24px -6px rgba(0,0,0,.45);}
+.count-up{font-variant-numeric:tabular-nums;}
+
+/* ── 9) BUTTONS: langsamer, edler Glanz-Sweep ── */
+.btn-hero,.btn-nav,.cta-banner-btn{position:relative;overflow:hidden;}
+.btn-hero::before,.btn-nav::before,.cta-banner-btn::before{
+  content:"";position:absolute;top:0;left:-90%;
+  width:50%;height:100%;
+  background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.4) 50%,transparent 100%);
+  transform:skewX(-22deg);
+  transition:left .8s var(--ease-expo);
+  pointer-events:none;
+}
+.btn-hero:hover::before,.btn-nav:hover::before,.cta-banner-btn:hover::before{left:140%;}
+
+/* ── 10) ZITAT-BAND: Blur-in wie ein Vorhang ── */
+.quote-band-text.rv-blur{transition-duration:1.3s;}
+
+/* ── 11) PARALLAX-Ziele ── */
+.hero-slider{will-change:transform;}
+.forwhom-blob-r,.forwhom-blob-l{will-change:transform;transition:none;}
+
+/* ── 12) NAV: schrumpft seidig ── */
+nav{transition:height .35s var(--ease-expo), box-shadow .35s ease, background .35s ease;}
+nav.nav-scrolled{height:58px;box-shadow:0 8px 30px -10px rgba(27,58,92,.22);background:rgba(255,255,255,.85);}
+
+/* ── 13) FAQ: seidiges Aufklappen ── */
+details .faq-answer{overflow:hidden;}
+details[open] .faq-answer{animation:faqOpen .55s var(--ease-expo);}
+@keyframes faqOpen{
+  from{opacity:0;transform:translateY(-10px);filter:blur(3px);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+summary{transition:color .25s ease, padding-left .25s var(--ease-expo);}
+summary:hover{color:var(--accent);padding-left:6px;}
+
+/* ── 14) Scroll-Progress: Goldfaden ── */
+#scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:0;
+  background:linear-gradient(90deg,var(--navy) 0%,var(--accent) 60%,#e8b98a 100%);
+  z-index:2000;border-radius:0 2px 2px 0;
+  box-shadow:0 0 8px rgba(196,112,58,.55);
+}
+
+/* ── 15) Reduced Motion: respektvoll alles aus ── */
+@media(prefers-reduced-motion:reduce){
+  .hero-slide.is-active{animation:none;transform:none;}
+  .hero .section-label,.hero h1,.hero-desc,.hero-checks,.hero .btn-hero,.hero-trust{
+    animation:none;opacity:1;transform:none;filter:none;
+  }
+  .hero h1 em{animation:none;background:none;-webkit-text-fill-color:initial;color:#f0a868;}
+  .hero::after{display:none;}
+  .scroll-hint{display:none;}
+  .rv,.rv-left,.rv-right,.rv-scale,.rv-blur{opacity:1;transform:none;filter:none;transition:none;}
+  h2.section-title.rv{filter:none;letter-spacing:0;}
+  h2.section-title::after{width:110px;transition:none;}
+  .btn-hero::before,.btn-nav::before,.cta-banner-btn::before{display:none;}
+  #scroll-progress{display:none;}
+  .hero-slider{transform:none !important;}
+  .forwhom-blob-r,.forwhom-blob-l{transform:none !important;}
+}
