@@ -6,6 +6,7 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <!-- BLOG_SITEMAP_START -->
   <url>
     <loc>https://neuroscanbalance-badessen.de/blog/</loc>
     <lastmod>2026-07-08</lastmod>

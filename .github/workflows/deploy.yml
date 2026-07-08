@@ -52,6 +52,8 @@ jobs:
             **/Bilder/**
             **/README.md
             **/CLAUDE.md
+            **/scripts/**
+            blog/drafts/**
             test.html
 
       - name: Live-Version taggen (Zeitstempel)

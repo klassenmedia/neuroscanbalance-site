@@ -1,0 +1,27 @@
+{
+  "_hinweis": "Blog-Planer. Jeder Eintrag = ein fertiger Entwurf unter blog/drafts/<slug>.html, der automatisch am 'publish'-Datum live geht. Datum im Format JJJJ-MM-TT. Reihenfolge egal. Wer schon veröffentlicht ist, wird aus dieser Liste automatisch entfernt.",
+  "posts": [
+    {
+      "slug": "neuroscanbalance-bei-erwachsenen",
+      "publish": "2026-08-05",
+      "title": "NeuroScanBalance bei Erwachsenen: sanfte Hilfe bei chronischen Beschwerden",
+      "category": "Für Erwachsene",
+      "image": "slide-5.webp",
+      "imageAlt": "Ruhige, feinmotorische NeuroScanBalance-Einheit mit einer erwachsenen Person",
+      "excerpt": "Nicht nur für Kinder: Wie die Methode auch Erwachsenen mit Verspannungen, chronischen Schmerzen oder nach Verletzungen helfen kann.",
+      "dateLabel": "5. August 2026",
+      "readMin": 4
+    },
+    {
+      "slug": "5-fragen-vor-dem-ersten-termin",
+      "publish": "2026-08-26",
+      "title": "5 Fragen, die sich Eltern vor dem ersten Termin stellen",
+      "category": "Erste Schritte",
+      "image": "slide-6.webp",
+      "imageAlt": "Elterngespräch vor einer NeuroScanBalance-Einheit in Bad Essen",
+      "excerpt": "Was kostet es, tut es weh, ab welchem Alter, wie schnell sieht man etwas? Die häufigsten Fragen – ehrlich beantwortet.",
+      "dateLabel": "26. August 2026",
+      "readMin": 3
+    }
+  ]
+}

@@ -631,7 +631,7 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
 .breadcrumb{max-width:820px;margin:0 auto;padding:1.4rem 1.5rem .2rem;font-size:13px;color:var(--text-light);}
 .breadcrumb a{color:var(--text-muted);text-decoration:none;}
 .breadcrumb a:hover{color:var(--accent);}
-.article-hero-img{display:block;width:calc(100% - 3rem);max-width:900px;margin:1rem auto 0;aspect-ratio:16/9;object-fit:cover;border-radius:18px;box-shadow:0 18px 40px -18px rgba(14,107,138,.4);}
+.article-hero-img{display:block;width:calc(100% - 2rem);max-width:1080px;margin:1rem auto 0;aspect-ratio:16/9;object-fit:cover;border-radius:18px;box-shadow:0 18px 40px -18px rgba(14,107,138,.4);}
 .article-header{max-width:760px;margin:0 auto;padding:1.8rem 1.5rem .3rem;}
 .article-cat{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;}
 .article-header h1{font-size:2.05rem;font-weight:800;color:var(--navy);line-height:1.18;margin:.45rem 0 .7rem;text-wrap:balance;}

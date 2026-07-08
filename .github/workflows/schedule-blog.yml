@@ -1,0 +1,79 @@
+name: Blog-Planer (geplante Beiträge veröffentlichen)
+
+# Prüft täglich, ob ein vorbereiteter Blog-Entwurf sein Veröffentlichungsdatum
+# erreicht hat (siehe blog/drafts/schedule.json). Wenn ja:
+#   1. Entwurf wird nach blog/ verschoben und in Übersicht + Sitemap eingetragen
+#   2. Änderung wird auf main committet
+#   3. Seite wird per FTP zu All-Inkl hochgeladen (gleicher Weg wie deploy.yml)
+#   4. Live-Version wird getaggt (live-JJJJ-MM-TT-HHMMSS)
+#
+# Warum der FTP-Upload hier direkt passiert und nicht deploy.yml auslöst:
+# Pushes, die eine Action mit dem Standard-GITHUB_TOKEN macht, starten keine
+# weiteren Workflows. Deshalb lädt dieser Workflow selbst hoch.
+#
+# Manuell testen: Reiter "Actions" -> diesen Workflow -> "Run workflow".
+
+on:
+  schedule:
+    - cron: '0 4 * * *'   # täglich ~06:00 Berlin (Sommerzeit) / 05:00 (Winterzeit)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fällige Beiträge veröffentlichen
+        id: run
+        run: node scripts/publish-due.mjs
+
+      - name: Änderungen committen
+        if: steps.run.outputs.published == 'true'
+        run: |
+          git config user.name "blog-planer[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Blog: geplante Beiträge veröffentlicht (${{ steps.run.outputs.slugs }})"
+          git push origin HEAD:main
+
+      - name: Per FTP hochladen
+        if: steps.run.outputs.published == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /neuroscanbalance-badessen.de/
+          protocol: ftps
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.gitignore
+            **/.DS_Store
+            **/.claude/**
+            **/Bilder/**
+            **/README.md
+            **/CLAUDE.md
+            **/scripts/**
+            blog/drafts/**
+            test.html
+
+      - name: Live-Version taggen (Zeitstempel)
+        if: steps.run.outputs.published == 'true'
+        run: |
+          TS=$(TZ=Europe/Berlin date +'%Y-%m-%d-%H%M%S')
+          TAG="live-$TS"
+          git tag -a "$TAG" -m "Live-Deploy (Blog-Planer) $TS (Europe/Berlin)"
+          git push origin "$TAG"
+          echo "Getaggt als: $TAG"
