@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+/* Fonts werden per <link rel="preconnect"> + <link rel="stylesheet"> im
+   HTML-<head> geladen (schneller als @import, kein render-blockierender
+   Wasserfall). Falls diese CSS-Datei ohne das HTML genutzt wird, greifen
+   die System-Fallbacks aus --sans / --hand. */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{

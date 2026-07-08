@@ -51,6 +51,15 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
 - **`Bilder/` (Rohfotos, ~130 MB)** existiert nur lokal beim Kunden –
   per `.gitignore` und Deploy-exclude ausgeschlossen. Nie einchecken.
 - Web-Bilder liegen unter `assets/img/`, Hero-Slides unter `assets/img/hero/`.
+- **Google Fonts werden per `<link rel="preconnect">` + `<link rel="stylesheet">`
+  im HTML-`<head>` geladen** (index/impressum/datenschutz), NICHT per `@import`
+  in der CSS – schneller, kein render-blockierender Wasserfall. Nicht zurück
+  auf `@import` stellen. Bei neuen HTML-Seiten dieselben zwei preconnects +
+  den Font-Link mitnehmen.
+- **SEO-Head-Standard** (schon gesetzt, so lassen): `robots` mit
+  `max-image-preview:large`, `theme-color`, `geo.*`-Meta, vollständige
+  Open-Graph- + Twitter-Card-Tags, JSON-LD mit LocalBusiness + WebSite +
+  Person (inkl. `hasCredential`) + FAQPage.
 
 ## Verifizieren vor dem Push
 
