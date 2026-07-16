@@ -59,6 +59,7 @@
             <option value="Noch unsicher / anderer Termin">Noch unsicher / anderer Termin</option>
           </select>
           <span class="hint">Du bist dir noch nicht sicher? Wähle „Noch unsicher" – wir klären das gemeinsam.</span>
+          <span class="hint" id="preis-hinweis" hidden></span>
         </div>
       </div>
     </fieldset>
@@ -190,18 +191,58 @@
 </footer>
 
 <script>
-  // Vorauswahl des Termins über ?ort=…&datum=…  oder ?intensive=…
+  // Termin-Auswahl: eingebaute Liste ist der Fallback; wird bei Erfolg durch die
+  // aktuellen Termine aus termine.json ersetzt (von Willi im Admin-Bereich gepflegt).
   (function(){
-    var p = new URLSearchParams(location.search);
     var sel = document.getElementById('intensive');
     if(!sel) return;
-    var key = (p.get('t') || '').trim();
-    var want = (p.get('intensive') || '').trim();
-    for(var i=0;i<sel.options.length;i++){
-      var o = sel.options[i];
-      if(key && o.getAttribute('data-key') === key){ sel.selectedIndex = i; break; }
-      if(want && o.value === want){ sel.selectedIndex = i; break; }
+    var p = new URLSearchParams(location.search);
+
+    function wendeVorauswahlAn(){
+      var key = (p.get('t') || '').trim();
+      var want = (p.get('intensive') || '').trim();
+      for(var i=0;i<sel.options.length;i++){
+        var o = sel.options[i];
+        if(key && o.getAttribute('data-key') === key){ sel.selectedIndex = i; break; }
+        if(want && o.value === want){ sel.selectedIndex = i; break; }
+      }
     }
+    function formatDatum(iso){ var t = iso.split('-'); return t[2] + '.' + t[1] + '.'; }
+
+    wendeVorauswahlAn();
+
+    fetch('termine.json', {cache:'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(data){
+      if(!data) return;
+      if(Array.isArray(data.termine) && data.termine.length){
+        var heute = new Date(); heute.setHours(0,0,0,0);
+        var kommende = data.termine.filter(function(t){
+          var end = new Date(t.end + 'T23:59:59');
+          return !isNaN(end) && end >= heute;
+        }).sort(function(a,b){ return a.start < b.start ? -1 : 1; });
+
+        if(kommende.length){
+          // bisherige Termin-Optionen entfernen (Platzhalter + "Noch unsicher" bleiben)
+          Array.prototype.slice.call(sel.options).forEach(function(o){
+            if(o.value !== '' && o.value !== 'Noch unsicher / anderer Termin') sel.removeChild(o);
+          });
+          var unsicher = sel.querySelector('option[value="Noch unsicher / anderer Termin"]');
+          kommende.forEach(function(t){
+            var label = t.ort + ' · ' + formatDatum(t.start) + ' – ' + formatDatum(t.end) + t.start.slice(0,4);
+            var opt = document.createElement('option');
+            opt.value = label;
+            opt.setAttribute('data-key', t.id);
+            opt.textContent = label;
+            sel.insertBefore(opt, unsicher);
+          });
+          wendeVorauswahlAn();
+        }
+      }
+      if(data.preise && data.preise.intensive){
+        var hinweis = document.getElementById('preis-hinweis');
+        if(hinweis){ hinweis.textContent = 'Preis: ' + data.preise.intensive; hinweis.hidden = false; }
+      }
+    }).catch(function(){ /* Fallback-Liste bleibt wie sie ist */ });
+
     // Fehler-Banner anzeigen, falls von anmeldung.php zurückgeleitet
     if(p.get('fehler') === '1'){
       var b = document.getElementById('fehler-banner');

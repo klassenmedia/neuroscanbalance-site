@@ -5,3 +5,6 @@ Bilder/
 smtp-config.php
 smtpconfig.php
 formular-log.txt
+termine.json
+admin/admin-config.php
+zahlung-config.php

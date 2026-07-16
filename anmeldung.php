@@ -11,6 +11,25 @@ $EMPFAENGER = ['klassen@nsb-badessen.de'];              // <-- hier Adresse(n) s
 $ABSENDER   = 'no-reply@neuroscanbalance-badessen.de';   // Muss eine Adresse der eigenen Domain sein (All-Inkl-Vorgabe)
 // ────────────────────────────────────────────────────────────
 
+// Preis (aus termine.json, von Willi im Admin-Bereich /admin/ gepflegt) und
+// Zahlungsdaten (aus zahlung-config.php, serverseitig, nie öffentlich abrufbar).
+// Beide optional: fehlen sie, läuft alles wie bisher ohne Preis-/Zahlungsblock.
+$intensive_preis = '';
+$termine_datei = __DIR__ . '/termine.json';
+if (is_file($termine_datei)) {
+    $td = json_decode(file_get_contents($termine_datei), true);
+    $intensive_preis = trim($td['preise']['intensive'] ?? '');
+}
+$zahlung = null;
+$zahlung_datei = __DIR__ . '/zahlung-config.php';
+if (is_file($zahlung_datei)) {
+    $z = require $zahlung_datei;
+    if (is_array($z) && trim($z['iban'] ?? '') !== '') {
+        $zahlung = ['kontoinhaber' => '', 'iban' => '', 'bic' => '', 'bank' => '', 'hinweis' => ''];
+        foreach ($zahlung as $k => $v) { $zahlung[$k] = trim((string)($z[$k] ?? '')); }
+    }
+}
+
 // Nur POST zulassen
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: anmeldung.html');
@@ -176,7 +195,18 @@ $confirm_text .= "danke für deine Anmeldung – wir haben sie erhalten und meld
 $confirm_text .= "persönlich bei dir, um alles Weitere in Ruhe zu besprechen.\n\n";
 $confirm_text .= "Deine Angaben zur Sicherheit:\n";
 $confirm_text .= "  Intensive: {$intensive}\n";
-$confirm_text .= "  Kind:      {$kind_name}\n\n";
+$confirm_text .= "  Kind:      {$kind_name}\n";
+if ($intensive_preis !== '') { $confirm_text .= "  Preis:     {$intensive_preis}\n"; }
+$confirm_text .= "\n";
+if ($zahlung) {
+    $confirm_text .= "SO KANNST DU BEZAHLEN\n";
+    if ($zahlung['kontoinhaber'] !== '') { $confirm_text .= "  Kontoinhaber: {$zahlung['kontoinhaber']}\n"; }
+    $confirm_text .= "  IBAN:         {$zahlung['iban']}\n";
+    if ($zahlung['bic'] !== '') { $confirm_text .= "  BIC:          {$zahlung['bic']}\n"; }
+    if ($zahlung['bank'] !== '') { $confirm_text .= "  Bank:         {$zahlung['bank']}\n"; }
+    if ($zahlung['hinweis'] !== '') { $confirm_text .= "  Hinweis:      {$zahlung['hinweis']}\n"; }
+    $confirm_text .= "\n";
+}
 $confirm_text .= "Wenn etwas nicht stimmt, antworte einfach auf diese E-Mail.\n\n";
 $confirm_text .= "Herzliche Grüße\nWilli Klassen\nNeuroScanBalance Bad Essen\n";
 
@@ -187,7 +217,22 @@ $confirm_inhalt .= '<div style="background:#f0ece6;border-radius:10px;padding:16
 $confirm_inhalt .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">';
 $confirm_inhalt .= email_zeile('Intensive', h($intensive));
 $confirm_inhalt .= email_zeile('Kind', h($kind_name));
+if ($intensive_preis !== '') { $confirm_inhalt .= email_zeile('Preis', h($intensive_preis)); }
 $confirm_inhalt .= '</table></div>';
+
+if ($zahlung) {
+    $confirm_inhalt .= '<p style="margin:0 0 10px;font-size:15px;font-weight:800;color:#0e6b8a;">So kannst du bezahlen</p>';
+    $confirm_inhalt .= '<div style="background:#f0ece6;border-radius:10px;padding:16px 18px;margin-bottom:18px;">';
+    $confirm_inhalt .= '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">';
+    if ($zahlung['kontoinhaber'] !== '') { $confirm_inhalt .= email_zeile('Kontoinhaber', h($zahlung['kontoinhaber']), false); }
+    $confirm_inhalt .= email_zeile('IBAN', h($zahlung['iban']));
+    if ($zahlung['bic'] !== '') { $confirm_inhalt .= email_zeile('BIC', h($zahlung['bic']), false); }
+    if ($zahlung['bank'] !== '') { $confirm_inhalt .= email_zeile('Bank', h($zahlung['bank']), false); }
+    $confirm_inhalt .= '</table>';
+    if ($zahlung['hinweis'] !== '') { $confirm_inhalt .= '<p style="margin:10px 0 0;font-size:13.5px;color:#5a5a5a;">' . nl2br(h($zahlung['hinweis'])) . '</p>'; }
+    $confirm_inhalt .= '</div>';
+}
+
 $confirm_inhalt .= '<p style="margin:0;font-size:14.5px;line-height:1.6;color:#5a5a5a;">Wenn etwas nicht stimmt, antworte einfach auf diese E-Mail.</p>';
 $confirm_inhalt .= '<p style="margin:22px 0 0;font-size:15px;line-height:1.6;color:#1a1a1a;">Herzliche Grüße<br><strong>Willi Klassen</strong><br>NeuroScanBalance Bad Essen</p>';
 // Einfarbig (kein CSS-Gradient) – Farbverlaeufe werden in vielen Mailprogrammen nicht unterstuetzt

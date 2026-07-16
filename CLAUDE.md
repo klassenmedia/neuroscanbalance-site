@@ -15,20 +15,64 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
 
 ## Harte Regeln (Konsistenz)
 
-- **Preise/Termine ändern = IMMER 3 Orte synchron halten:**
-  1. Sichtbarer Text in `index.html` (Intensiv-Bereich, FAQ, Kontakt-Box)
-  2. JSON-LD-Schema im `<head>` (makesOffer, FAQPage, priceRange)
-  3. `llms.txt` (Preise + Terminliste)
-  Die llms.txt ist schon zweimal auseinandergelaufen – nie wieder.
+- **Intensiv-Termine + Intensiv-Preis werden seit Juli 2026 NICHT mehr in
+  `index.html` gepflegt, sondern von Willi selbst im Admin-Bereich
+  (`/admin/`, Login) über `termine.json`** (Domain-Root, NICHT in Git –
+  siehe „Admin-Bereich" unten). `index.html` und `anmeldung.html` laden die
+  Termine per `fetch('termine.json')` und ersetzen damit die im HTML fest
+  eingebaute Liste. Diese feste Liste bleibt als **Fallback** im HTML stehen
+  (falls `termine.json` mal fehlt/nicht lädt) – beim Ändern eines Termins
+  im Admin-Bereich muss man diesen HTML-Fallback NICHT anfassen; er ist nur
+  ein Sicherheitsnetz, keine Quelle der Wahrheit mehr.
+- **`llms.txt` und das JSON-LD-Schema (`makesOffer`, `priceRange`) bleiben
+  weiterhin manuell zu pflegen** und laufen NICHT automatisch mit
+  `termine.json` mit (kein serverseitiges Nachziehen der Termine-Liste in
+  diese beiden Stellen – bewusste Einschränkung, um SEO-relevantes
+  statisches Markup nicht von Client-JS abhängig zu machen). Bei größeren
+  Terminänderungen weiterhin von Hand synchron halten.
 - **Kein `aggregateRating` im Schema**, solange der Testimonial-Bereich
   auskommentiert ist (Google-Richtlinie: Markup ohne sichtbare Entsprechung
   riskiert Rich-Snippet-Abschaltung). Erst wieder rein, wenn echte
   freigegebene Erfahrungsberichte sichtbar auf der Seite stehen.
-- **Der Intensiv-Wochenende-Preis steht bewusst NICHT auf der Seite**
-  („Preis auf Anfrage"). Nicht wieder einfügen.
+- **Startseite zeigt weiterhin „Preis auf Anfrage"** für das Intensiv-
+  Wochenende (unverändert). **Im Buchungsformular (`anmeldung.html`) und in
+  der Eltern-Bestätigungsmail wird der Preis dagegen angezeigt**, sobald
+  Willi ihn im Admin-Bereich unter „Preise" hinterlegt (Feld leer lassen =
+  weiterhin „Preis auf Anfrage" auch im Formular). Das ist eine bewusste
+  Ausnahme von der alten Regel, auf Wunsch des Kunden eingeführt, damit
+  Familien beim Buchen wissen, was sie überweisen sollen.
 - Nach Content-Änderungen: `lastmod` der Startseite in `sitemap.xml` aktualisieren.
 - Wording auf der Seite: „Intensive" (nicht „Intensivblock/Intensiv-Wochenende"
   im Fließtext – so hat es der Kunde in seiner Version etabliert).
+
+## Admin-Bereich (`/admin/`)
+
+Login-geschützter Bereich, in dem Willi selbst Intensiv-Termine (Ort,
+Start-/Enddatum), Preise (Einzel-Lesson, Intensive) und Zahlungsdaten
+(IBAN etc. für die Bestätigungsmail) pflegt – ohne Code, ohne Git.
+
+- **Datenablage bewusst außerhalb von Git** (siehe `.gitignore` +
+  Deploy-`exclude` in beiden Workflows): `termine.json` (Domain-Root,
+  öffentlich per `fetch()` lesbar – nur Orte/Daten/Preise, keine Bankdaten),
+  `zahlung-config.php` (Domain-Root, NIE öffentlich abrufbar,
+  `.htaccess`-geschützt, nur serverseitig von `anmeldung.php` gelesen),
+  `admin/admin-config.php` (Login-Zugangsdaten, bcrypt-Hash).
+  **Warum außerhalb von Git:** Der automatische Deploy lädt bei jedem Push
+  den Repo-Stand per FTP hoch. Läge Willis Datenpflege in einer
+  Git-verfolgten Datei, würde der nächste Deploy seine Änderungen wieder
+  überschreiben. So kommen sich Code-Updates und Admin-Pflege nie in die Quere.
+- **Vor Suchmaschinen versteckt:** `robots.txt` (`Disallow: /admin/`),
+  `admin/.htaccess` setzt `X-Robots-Tag: noindex` + `Cache-Control: no-store`.
+- **Login:** PHP-Session + bcrypt (kein Apache-`.htpasswd`, portabler).
+  CSRF-Token auf jedem Formular. Passwort kann Willi selbst im Admin-Bereich
+  ändern (Abschnitt „Passwort ändern").
+- **Ersteinrichtung auf einem neuen/frischen Server:**
+  `admin/admin-config.example.php` → `admin/admin-config.php` kopieren
+  (Zugangsdaten eintragen), `smtp-config.example.php`-Analogon für Termine
+  gibt es nicht – `termine.json` erzeugt sich beim ersten Speichern im
+  Admin-Bereich automatisch; für den produktiven Start wurde einmalig eine
+  vorbefüllte `termine.json` mit der bestehenden Terminliste per WebFTP
+  hochgeladen (sonst wäre die Terminhistorie beim ersten Admin-Save leer).
 
 ## Technische Stolperfallen (alle schon passiert)
 
@@ -81,7 +125,15 @@ sitemap.xml
 .htaccess           – Canonical-Redirects (https, ohne www), Kompression aus
 assets/css/style.v3.css   – EINZIGE aktive CSS-Datei (style.css = Altstand)
 assets/css/animations.css
-assets/js/main.js         – Menü, Slider, Calendly, Cookie-Banner
+assets/js/main.js         – Menü, Slider, Calendly, Cookie-Banner, Intensiv-Termine (dynamisch)
 assets/js/animations.js   – Reveals, Parallax, Count-up
+anmeldung.html / anmeldung.php / danke.html – Intensiv-Anmeldeformular
+smtp-mailer.php           – abhängigkeitsfreier SMTP-Client (TLS)
+admin/index.php           – Login-Bereich für Willi (Termine/Preise/Zahlungsdaten)
 .github/workflows/deploy.yml – FTP-Deploy + Auto-Tagging
+.github/workflows/schedule-blog.yml – täglicher Cron, veröffentlicht geplante Blogbeiträge
+
+Nicht in Git (nur auf dem Server, siehe .gitignore + Deploy-exclude):
+  termine.json, zahlung-config.php, admin/admin-config.php,
+  smtp-config.php, formular-log.txt
 ```

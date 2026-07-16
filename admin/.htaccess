@@ -1,0 +1,5 @@
+# Admin-Bereich: nicht indexieren, nicht cachen (enthält Formulare mit sensiblen Daten)
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive"
+  Header set Cache-Control "no-store, no-cache, must-revalidate"
+</IfModule>

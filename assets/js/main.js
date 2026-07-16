@@ -118,29 +118,62 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
 
 /* Intensiv-Termine: nur noch kommende Termine sind anklickbar.
    Abgleich mit dem heutigen Datum bei jedem Seitenaufruf – vergangene
-   Termine werden automatisch nicht mehr verlinkt (bleiben als Historie sichtbar). */
+   Termine werden automatisch nicht mehr verlinkt (bleiben als Historie sichtbar).
+
+   Quelle: termine.json (von Willi im Admin-Bereich /admin/ gepflegt). Klappt das
+   Laden nicht (Datei noch nicht angelegt, kein Netz), bleibt die im HTML fest
+   eingebaute Liste als Fallback einfach stehen – die Seite bricht nie. */
 (function(){
   var liste = document.getElementById('intensiv-liste');
   if(!liste) return;
-  var heute = new Date(); heute.setHours(0,0,0,0);
-  var offen = 0;
-  liste.querySelectorAll('li').forEach(function(li){
-    var end = li.getAttribute('data-end');
-    var key = li.getAttribute('data-key');
-    var endDate = end ? new Date(end + 'T23:59:59') : null;
-    if(endDate && !isNaN(endDate) && endDate >= heute && key){
-      li.classList.add('int-offen');
-      li.setAttribute('role','link');
-      li.setAttribute('tabindex','0');
-      li.setAttribute('aria-label', li.textContent.replace(/\s+/g,' ').trim() + ' – jetzt anmelden');
-      var go = function(){ window.location.href = 'anmeldung.html?t=' + encodeURIComponent(key); };
-      li.addEventListener('click', go);
-      li.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
-      offen++;
-    } else if(endDate && !isNaN(endDate) && endDate < heute){
-      li.classList.add('int-vorbei');
-    }
-  });
-  var hint = document.getElementById('intensiv-hint');
-  if(hint && offen > 0){ hint.hidden = false; }
+
+  function formatDatum(iso){
+    var t = iso.split('-');
+    return t[2] + '.' + t[1] + '.';
+  }
+
+  function markiereOffenVorbei(){
+    var heute = new Date(); heute.setHours(0,0,0,0);
+    var offen = 0;
+    liste.querySelectorAll('li').forEach(function(li){
+      li.classList.remove('int-offen','int-vorbei');
+      var end = li.getAttribute('data-end');
+      var key = li.getAttribute('data-key');
+      var endDate = end ? new Date(end + 'T23:59:59') : null;
+      if(endDate && !isNaN(endDate) && endDate >= heute && key){
+        li.classList.add('int-offen');
+        li.setAttribute('role','link');
+        li.setAttribute('tabindex','0');
+        li.setAttribute('aria-label', li.textContent.replace(/\s+/g,' ').trim() + ' – jetzt anmelden');
+        var go = function(){ window.location.href = 'anmeldung.html?t=' + encodeURIComponent(key); };
+        li.addEventListener('click', go);
+        li.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
+        offen++;
+      } else if(endDate && !isNaN(endDate) && endDate < heute){
+        li.classList.add('int-vorbei');
+      }
+    });
+    var hint = document.getElementById('intensiv-hint');
+    if(hint){ hint.hidden = offen === 0; }
+  }
+
+  // 1) Sofort mit der eingebauten Fallback-Liste starten (funktioniert immer)
+  markiereOffenVorbei();
+
+  // 2) Aktuelle Termine nachladen und Liste bei Erfolg ersetzen
+  fetch('termine.json', {cache:'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(data){
+    if(!data || !Array.isArray(data.termine) || !data.termine.length) return;
+    var sortiert = data.termine.slice().sort(function(a,b){ return a.start < b.start ? -1 : 1; });
+    liste.innerHTML = '';
+    sortiert.forEach(function(t){
+      var li = document.createElement('li');
+      li.setAttribute('data-end', t.end);
+      li.setAttribute('data-key', t.id);
+      li.innerHTML = '<span class="int-ort"></span><span class="int-datum"></span>';
+      li.querySelector('.int-ort').textContent = t.ort;
+      li.querySelector('.int-datum').textContent = formatDatum(t.start) + ' – ' + formatDatum(t.end);
+      liste.appendChild(li);
+    });
+    markiereOffenVorbei();
+  }).catch(function(){ /* Fallback-Liste bleibt wie sie ist */ });
 })();

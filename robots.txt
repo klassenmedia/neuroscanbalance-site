@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 # KI-/LLM-Crawler ausdrücklich erlaubt
 User-agent: GPTBot

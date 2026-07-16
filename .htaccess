@@ -4,8 +4,10 @@ DirectoryIndex index.html index.htm
 AddDefaultCharset UTF-8
 Options -MultiViews
 
-# Interne Dateien vor Web-Zugriff schützen (SMTP-Zugangsdaten, Formular-Log)
-<FilesMatch "^(smtp-config\.php|smtpconfig\.php|formular-log\.txt)$">
+# Interne Dateien vor Web-Zugriff schützen (SMTP-/Admin-Zugangsdaten, Zahlungsdaten, Formular-Log)
+# termine.json bleibt ABSICHTLICH öffentlich lesbar (Startseite + Anmeldeformular
+# laden Termine/Preise per fetch() – enthält keine Bankdaten).
+<FilesMatch "^(smtp-config\.php|smtpconfig\.php|formular-log\.txt|zahlung-config\.php|admin-config\.php)$">
   Require all denied
 </FilesMatch>
 
