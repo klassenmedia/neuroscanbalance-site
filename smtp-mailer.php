@@ -8,7 +8,7 @@
  * Kein Composer / keine externe Bibliothek nötig (statische Seite, kein Build-Schritt).
  */
 
-function smtp_send(array $cfg, string $to, string $subject, string $body, string $replyToEmail = '', string $replyToName = ''): array {
+function smtp_send(array $cfg, string $to, string $subject, string $body, string $replyToEmail = '', string $replyToName = '', string $htmlBody = ''): array {
     $host     = $cfg['host'] ?? '';
     $port     = (int)($cfg['port'] ?? 465);
     $secure   = $cfg['secure'] ?? 'ssl';               // 'ssl' (465) oder 'tls' (587/STARTTLS)
@@ -78,12 +78,31 @@ function smtp_send(array $cfg, string $to, string $subject, string $body, string
     }
     $headers[] = 'Subject: ' . $encSubj;
     $headers[] = 'MIME-Version: 1.0';
-    $headers[] = 'Content-Type: text/plain; charset=UTF-8';
-    $headers[] = 'Content-Transfer-Encoding: 8bit';
+
+    if ($htmlBody !== '') {
+        // Multipart: Text-Version (Fallback) + HTML-Version, damit jedes Mailprogramm
+        // etwas Lesbares zeigt – moderne Clients (Outlook/Gmail/Apple Mail) rendern die HTML-Version.
+        $boundary = 'nsb_' . bin2hex(random_bytes(12));
+        $headers[] = 'Content-Type: multipart/alternative; boundary="' . $boundary . '"';
+        $rawBody  = "This is a multi-part message in MIME format.\n";
+        $rawBody .= "--{$boundary}\n";
+        $rawBody .= "Content-Type: text/plain; charset=UTF-8\n";
+        $rawBody .= "Content-Transfer-Encoding: 8bit\n\n";
+        $rawBody .= $body . "\n\n";
+        $rawBody .= "--{$boundary}\n";
+        $rawBody .= "Content-Type: text/html; charset=UTF-8\n";
+        $rawBody .= "Content-Transfer-Encoding: 8bit\n\n";
+        $rawBody .= $htmlBody . "\n\n";
+        $rawBody .= "--{$boundary}--";
+    } else {
+        $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+        $headers[] = 'Content-Transfer-Encoding: 8bit';
+        $rawBody = $body;
+    }
 
     // Body normalisieren auf CRLF + Dot-Stuffing (Zeilen, die mit "." beginnen)
-    $body = str_replace(["\r\n", "\r", "\n"], "\n", $body);
-    $lines = explode("\n", $body);
+    $rawBody = str_replace(["\r\n", "\r", "\n"], "\n", $rawBody);
+    $lines = explode("\n", $rawBody);
     foreach ($lines as &$ln) { if (isset($ln[0]) && $ln[0] === '.') $ln = '.' . $ln; }
     unset($ln);
 

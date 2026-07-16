@@ -94,11 +94,12 @@
         </div>
         <div class="field">
           <label for="plz">Postleitzahl <span class="req">*</span></label>
-          <input type="text" id="plz" name="plz" inputmode="numeric" autocomplete="postal-code" required>
+          <input type="text" id="plz" name="plz" inputmode="numeric" maxlength="5" autocomplete="postal-code" required>
         </div>
         <div class="field">
           <label for="ort">Ort <span class="req">*</span></label>
           <input type="text" id="ort" name="ort" autocomplete="address-level2" required>
+          <span class="hint" id="ort-hint" hidden>automatisch anhand der PLZ vorausgefüllt – bei Bedarf änderbar</span>
         </div>
         <div class="field full">
           <label for="email">E-Mail-Adresse <span class="req">*</span></label>
@@ -119,8 +120,8 @@
           <input type="date" id="kind_geburtsdatum" name="kind_geburtsdatum" required>
         </div>
         <div class="field">
-          <label for="kind_alter">Alter des Kindes</label>
-          <input type="text" id="kind_alter" name="kind_alter" inputmode="numeric">
+          <label for="kind_alter">Alter</label>
+          <input type="text" id="kind_alter" readonly placeholder="wird automatisch berechnet" style="background:var(--bg-section);color:var(--text-muted);cursor:default;">
         </div>
         <div class="field full">
           <label for="diagnose">Diagnose <span class="hint" style="font-weight:400;">(freiwillig)</span></label>
@@ -206,6 +207,75 @@
       var b = document.getElementById('fehler-banner');
       if(b){ b.style.display='block'; b.scrollIntoView({behavior:'smooth',block:'center'}); }
     }
+  })();
+
+  // Geburtsdatum: keine Zukunft erlauben + Alter live berechnen (Jahre / Monate / Tage)
+  (function(){
+    var geb = document.getElementById('kind_geburtsdatum');
+    var alterFeld = document.getElementById('kind_alter');
+    if(!geb || !alterFeld) return;
+
+    var heute = new Date();
+    var yyyy = heute.getFullYear(), mm = String(heute.getMonth()+1).padStart(2,'0'), dd = String(heute.getDate()).padStart(2,'0');
+    var heuteStr = yyyy + '-' + mm + '-' + dd;
+    geb.setAttribute('max', heuteStr);
+
+    function berechneAlter(datumStr){
+      var d = new Date(datumStr + 'T00:00:00');
+      if(isNaN(d)) return '';
+      var jetzt = new Date(); jetzt.setHours(0,0,0,0);
+      if(d > jetzt) return 'Geburtsdatum darf nicht in der Zukunft liegen';
+      var jahre = jetzt.getFullYear() - d.getFullYear();
+      var monate = jetzt.getMonth() - d.getMonth();
+      var tage = jetzt.getDate() - d.getDate();
+      if(tage < 0){ monate--; }
+      if(monate < 0){ jahre--; monate += 12; }
+      if(jahre >= 1){ return jahre + (jahre===1 ? ' Jahr' : ' Jahre'); }
+      if(monate >= 1){ return monate + (monate===1 ? ' Monat' : ' Monate'); }
+      // Tage seit Geburt (für Babys unter 1 Monat)
+      var msProTag = 24*60*60*1000;
+      var tageGesamt = Math.round((jetzt - d) / msProTag);
+      return tageGesamt + (tageGesamt===1 ? ' Tag' : ' Tage');
+    }
+
+    geb.addEventListener('input', function(){
+      if(!geb.value){ alterFeld.value = ''; return; }
+      alterFeld.value = berechneAlter(geb.value);
+    });
+    // Beim Laden vorbelegen, falls Browser den Wert schon eingesetzt hat (Autofill)
+    if(geb.value){ alterFeld.value = berechneAlter(geb.value); }
+  })();
+
+  // PLZ -> Ort automatisch vorschlagen (deutsche Postleitzahlen, kostenlose Zippopotam-API)
+  (function(){
+    var plz = document.getElementById('plz');
+    var ort = document.getElementById('ort');
+    var hint = document.getElementById('ort-hint');
+    if(!plz || !ort) return;
+    var ortVomNutzerGeaendert = false;
+    var letzteAbgefragtePlz = '';
+
+    ort.addEventListener('input', function(){ ortVomNutzerGeaendert = true; });
+
+    function nachschlagen(){
+      var wert = plz.value.trim();
+      if(!/^\d{5}$/.test(wert) || wert === letzteAbgefragtePlz) return;
+      letzteAbgefragtePlz = wert;
+      fetch('https://api.zippopotam.us/de/' + wert)
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(data){
+          if(!data || !data.places || !data.places.length) return;
+          // Nur automatisch befüllen, wenn der Ort noch leer ist oder nicht von Hand geändert wurde
+          if(!ortVomNutzerGeaendert || ort.value.trim() === ''){
+            ort.value = data.places[0]['place name'];
+            ortVomNutzerGeaendert = false;
+            if(hint){ hint.hidden = false; }
+          }
+        })
+        .catch(function(){ /* kein Internet/API nicht erreichbar -> einfach manuell eingeben lassen */ });
+    }
+    plz.addEventListener('input', nachschlagen);
+    plz.addEventListener('blur', nachschlagen);
   })();
 </script>
 
