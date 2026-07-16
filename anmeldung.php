@@ -7,7 +7,7 @@
  * │  EMPFÄNGER HIER EINTRAGEN (final noch zu bestätigen):       │
  * └────────────────────────────────────────────────────────────┘
  */
-$EMPFAENGER = ['klassen@nsb-badessen.de'];              // <-- hier Adresse(n) setzen; Tanja ggf. ergänzen: 'tanja@neuroscanbalance-owl.de'
+$EMPFAENGER = ['klassen@nsb-badessen.de', 'tanja@neuroscanbalance-owl.de'];
 $ABSENDER   = 'no-reply@neuroscanbalance-badessen.de';   // Muss eine Adresse der eigenen Domain sein (All-Inkl-Vorgabe)
 // ────────────────────────────────────────────────────────────
 
