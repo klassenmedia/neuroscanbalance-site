@@ -53,6 +53,7 @@ jobs:
             **/README.md
             **/CLAUDE.md
             **/scripts/**
+            **/docs/**
             blog/drafts/**
             test.html
 
