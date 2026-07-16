@@ -115,3 +115,32 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 });
+
+/* Intensiv-Termine: nur noch kommende Termine sind anklickbar.
+   Abgleich mit dem heutigen Datum bei jedem Seitenaufruf – vergangene
+   Termine werden automatisch nicht mehr verlinkt (bleiben als Historie sichtbar). */
+(function(){
+  var liste = document.getElementById('intensiv-liste');
+  if(!liste) return;
+  var heute = new Date(); heute.setHours(0,0,0,0);
+  var offen = 0;
+  liste.querySelectorAll('li').forEach(function(li){
+    var end = li.getAttribute('data-end');
+    var key = li.getAttribute('data-key');
+    var endDate = end ? new Date(end + 'T23:59:59') : null;
+    if(endDate && !isNaN(endDate) && endDate >= heute && key){
+      li.classList.add('int-offen');
+      li.setAttribute('role','link');
+      li.setAttribute('tabindex','0');
+      li.setAttribute('aria-label', li.textContent.replace(/\s+/g,' ').trim() + ' – jetzt anmelden');
+      var go = function(){ window.location.href = 'anmeldung.html?t=' + encodeURIComponent(key); };
+      li.addEventListener('click', go);
+      li.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
+      offen++;
+    } else if(endDate && !isNaN(endDate) && endDate < heute){
+      li.classList.add('int-vorbei');
+    }
+  });
+  var hint = document.getElementById('intensiv-hint');
+  if(hint && offen > 0){ hint.hidden = false; }
+})();

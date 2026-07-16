@@ -48,6 +48,13 @@ if (($_POST['einverstaendnis'] ?? '') !== 'ja' || ($_POST['datenschutz'] ?? '') 
     zurueck_mit_fehler();
 }
 
+// Foto-/Videoeinwilligung: eine der gültigen Optionen muss gewählt sein
+$foto_optionen = ['Keine Aufnahmen', 'Nur ohne erkennbares Gesicht', 'Auch mit erkennbarem Gesicht'];
+$foto = clean($_POST['foto_einwilligung'] ?? '');
+if (!in_array($foto, $foto_optionen, true)) {
+    zurueck_mit_fehler();
+}
+
 // E-Mail plausibel?
 $email = clean($_POST['email']);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -87,7 +94,8 @@ if ($kind_alter !== '') { $text .= "  Alter:       {$kind_alter}\n"; }
 $text .= "  Diagnose:    " . ($diagnose !== '' ? $diagnose : '(keine Angabe)') . "\n\n";
 $text .= "EINWILLIGUNGEN\n";
 $text .= "  [x] Verbindliche Anmeldung bestätigt\n";
-$text .= "  [x] Datenschutz / Verarbeitung eingewilligt\n\n";
+$text .= "  [x] Datenschutz / Verarbeitung eingewilligt\n";
+$text .= "  Foto/Video: {$foto}\n\n";
 $text .= "----------------------------------------\n";
 $text .= "Gesendet am " . date('d.m.Y \u\m H:i') . " Uhr über neuroscanbalance-badessen.de\n";
 
