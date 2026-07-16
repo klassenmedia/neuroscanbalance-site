@@ -91,23 +91,55 @@ $text .= "  [x] Datenschutz / Verarbeitung eingewilligt\n\n";
 $text .= "----------------------------------------\n";
 $text .= "Gesendet am " . date('d.m.Y \u\m H:i') . " Uhr über neuroscanbalance-badessen.de\n";
 
-// Header
-$headers  = "From: NSB Anmeldung <{$ABSENDER}>\r\n";
-$headers .= "Reply-To: {$vorname} {$nachname} <{$email}>\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+// Optionale Eingangsbestätigung an die Eltern
+$eltern_name = trim($vorname . ' ' . $nachname);
+$confirm_betreff = 'Deine Anmeldung zum NeuroScanBalance-Intensive';
+$confirm_text  = "Hallo {$eltern_name},\n\n";
+$confirm_text .= "danke für deine Anmeldung – wir haben sie erhalten und melden uns\n";
+$confirm_text .= "persönlich bei dir, um alles Weitere in Ruhe zu besprechen.\n\n";
+$confirm_text .= "Deine Angaben zur Sicherheit:\n";
+$confirm_text .= "  Intensive: {$intensive}\n";
+$confirm_text .= "  Kind:      {$kind_name}\n\n";
+$confirm_text .= "Wenn etwas nicht stimmt, antworte einfach auf diese E-Mail.\n\n";
+$confirm_text .= "Herzliche Grüße\nWilli Klassen\nNeuroScanBalance Bad Essen\n";
 
-// Senden (an alle Empfänger)
-// WICHTIG zur Zustellbarkeit: Absender (From) und Envelope-Sender (-f) sind bewusst
-// eine Adresse der WEBSITE-Domain (neuroscanbalance-badessen.de, liegt bei All-Inkl) –
-// NICHT die private Adresse @nsb-badessen.de. So passt der SPF-Eintrag, egal wo das
-// Postfach @nsb-badessen.de gehostet ist (z. B. Microsoft). Der Empfänger (To) darf
-// jede beliebige Adresse sein. Antworten gehen per Reply-To an die Eltern.
-$betreff_enc = '=?UTF-8?B?' . base64_encode($betreff) . '?=';
+// ─────────────────────────────────────────────────────────────
+// Versand: bevorzugt SMTP (TLS) über smtp-config.php, sonst PHP mail()
+// WICHTIG zur Zustellbarkeit: Absender ist bewusst eine Adresse der WEBSITE-Domain
+// (neuroscanbalance-badessen.de, liegt bei All-Inkl) – NICHT die private Adresse
+// @nsb-badessen.de. So passt der SPF-Eintrag, egal wo das Postfach @nsb-badessen.de
+// gehostet ist (z. B. Microsoft). Antworten von Willi laufen per Reply-To.
+// ─────────────────────────────────────────────────────────────
+$cfgfile = __DIR__ . '/smtp-config.php';
 $ok = true;
-foreach ($EMPFAENGER as $to) {
-    if (!mail($to, $betreff_enc, $text, $headers, '-f ' . $ABSENDER)) {
-        $ok = false;
+
+if (is_file($cfgfile)) {
+    $cfg = require $cfgfile;
+    require_once __DIR__ . '/smtp-mailer.php';
+
+    // 1) Benachrichtigung an Willi (Reply-To = Eltern → 1 Klick antwortet der Familie)
+    foreach (($cfg['to'] ?? $EMPFAENGER) as $to) {
+        $res = smtp_send($cfg, $to, $betreff, $text, $email, $eltern_name);
+        if (!$res['ok']) { $ok = false; error_log('SMTP an Willi fehlgeschlagen: ' . $res['error']); }
+    }
+
+    // 2) Optionale Bestätigung an die Eltern (Reply-To = Willi)
+    if (!empty($cfg['confirm_to_parent'])) {
+        $replyWilli = $cfg['reply_to'] ?? ($cfg['to'][0] ?? '');
+        // Bestätigung ist "nice to have" – ein Fehler hier soll die Anmeldung nicht scheitern lassen
+        smtp_send($cfg, $email, $confirm_betreff, $confirm_text, $replyWilli, 'Willi Klassen');
+    }
+} else {
+    // Fallback ohne SMTP: einfacher PHP-mail()-Versand
+    $headers  = "From: NSB Anmeldung <{$ABSENDER}>\r\n";
+    $headers .= "Reply-To: {$eltern_name} <{$email}>\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    $betreff_enc = '=?UTF-8?B?' . base64_encode($betreff) . '?=';
+    foreach ($EMPFAENGER as $to) {
+        if (!mail($to, $betreff_enc, $text, $headers, '-f ' . $ABSENDER)) {
+            $ok = false;
+        }
     }
 }
 

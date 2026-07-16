@@ -54,6 +54,7 @@ jobs:
             **/CLAUDE.md
             **/scripts/**
             **/docs/**
+            smtp-config.php
             blog/drafts/**
             test.html
 

@@ -1,2 +1,5 @@
 Bilder/
 .DS_Store
+
+# SMTP-Zugangsdaten (nur auf dem Server, nie ins Repo)
+smtp-config.php
