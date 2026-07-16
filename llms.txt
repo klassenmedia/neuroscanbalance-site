@@ -45,8 +45,10 @@ NeuroScanBalance ist eine Selbstzahlerleistung. Gesetzliche Krankenkassen erstat
 - Wesel: 21.08. – 23.08.2026
 - Bad Essen: 28.08. – 30.08.2026
 - Paderborn: 25.09. – 27.09.2026
+- Bad Essen: 09.10. – 11.10.2026
 - Wesel: 16.10. – 18.10.2026
-- Hamburg: 06.11. – 08.11.2026
+- Paderborn: 06.11. – 08.11.2026
+- Hamburg: 20.11. – 22.11.2026
 
 ## Standort & Einzugsgebiet
 
