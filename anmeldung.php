@@ -98,9 +98,15 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
 // Senden (an alle Empfänger)
+// WICHTIG zur Zustellbarkeit: Absender (From) und Envelope-Sender (-f) sind bewusst
+// eine Adresse der WEBSITE-Domain (neuroscanbalance-badessen.de, liegt bei All-Inkl) –
+// NICHT die private Adresse @nsb-badessen.de. So passt der SPF-Eintrag, egal wo das
+// Postfach @nsb-badessen.de gehostet ist (z. B. Microsoft). Der Empfänger (To) darf
+// jede beliebige Adresse sein. Antworten gehen per Reply-To an die Eltern.
+$betreff_enc = '=?UTF-8?B?' . base64_encode($betreff) . '?=';
 $ok = true;
 foreach ($EMPFAENGER as $to) {
-    if (!mail($to, '=?UTF-8?B?' . base64_encode($betreff) . '?=', $text, $headers)) {
+    if (!mail($to, $betreff_enc, $text, $headers, '-f ' . $ABSENDER)) {
         $ok = false;
     }
 }
