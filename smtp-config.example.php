@@ -27,7 +27,7 @@ return [
     'from_name' => 'NeuroScanBalance Anmeldung',
 
     // Wohin die Anmeldungen gehen (eine oder mehrere Adressen):
-    'to'        => ['klassen@nsb-badessen.de'],
+    'to'        => ['klassen@nsb-badessen.de', 'tanja@neuroscanbalance-owl.de'],
 
     // Reply-To für die Bestätigungs-Mail an die Eltern (Antworten landen bei Willi):
     'reply_to'  => 'klassen@nsb-badessen.de',
