@@ -68,6 +68,8 @@ jobs:
             **/scripts/**
             **/docs/**
             smtp-config.php
+            smtpconfig.php
+            formular-log.txt
             blog/drafts/**
             test.html
 

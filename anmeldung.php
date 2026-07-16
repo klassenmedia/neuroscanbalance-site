@@ -118,36 +118,52 @@ $confirm_text .= "Herzliche Grüße\nWilli Klassen\nNeuroScanBalance Bad Essen\n
 // @nsb-badessen.de. So passt der SPF-Eintrag, egal wo das Postfach @nsb-badessen.de
 // gehostet ist (z. B. Microsoft). Antworten von Willi laufen per Reply-To.
 // ─────────────────────────────────────────────────────────────
+// Konfig-Datei suchen – beide Schreibweisen erlaubt (mit/ohne Bindestrich)
 $cfgfile = __DIR__ . '/smtp-config.php';
+if (!is_file($cfgfile) && is_file(__DIR__ . '/smtpconfig.php')) {
+    $cfgfile = __DIR__ . '/smtpconfig.php';
+}
+
+// Server-Logfile (nur Ergebnisse/Fehler – KEINE personenbezogenen Daten der Familie).
+// Liegt geschützt (.htaccess verbietet Web-Zugriff) und wird vom Deploy nicht angefasst.
+$logfile = __DIR__ . '/formular-log.txt';
+$log = function ($msg) use ($logfile) {
+    @file_put_contents($logfile, date('Y-m-d H:i:s') . '  ' . $msg . "\n", FILE_APPEND | LOCK_EX);
+};
+
 $ok = true;
 
 if (is_file($cfgfile)) {
     $cfg = require $cfgfile;
     require_once __DIR__ . '/smtp-mailer.php';
+    $log('Neue Anmeldung – Versand per SMTP (' . ($cfg['host'] ?? '?') . ')');
 
     // 1) Benachrichtigung an Willi (Reply-To = Eltern → 1 Klick antwortet der Familie)
     foreach (($cfg['to'] ?? $EMPFAENGER) as $to) {
         $res = smtp_send($cfg, $to, $betreff, $text, $email, $eltern_name);
-        if (!$res['ok']) { $ok = false; error_log('SMTP an Willi fehlgeschlagen: ' . $res['error']); }
+        $log('  -> Benachrichtigung an ' . $to . ': ' . ($res['ok'] ? 'OK' : 'FEHLER: ' . $res['error']));
+        if (!$res['ok']) { $ok = false; }
     }
 
     // 2) Optionale Bestätigung an die Eltern (Reply-To = Willi)
     if (!empty($cfg['confirm_to_parent'])) {
         $replyWilli = $cfg['reply_to'] ?? ($cfg['to'][0] ?? '');
         // Bestätigung ist "nice to have" – ein Fehler hier soll die Anmeldung nicht scheitern lassen
-        smtp_send($cfg, $email, $confirm_betreff, $confirm_text, $replyWilli, 'Willi Klassen');
+        $rc = smtp_send($cfg, $email, $confirm_betreff, $confirm_text, $replyWilli, 'Willi Klassen');
+        $log('  -> Bestaetigung an Eltern: ' . ($rc['ok'] ? 'OK' : 'FEHLER: ' . $rc['error']));
     }
 } else {
     // Fallback ohne SMTP: einfacher PHP-mail()-Versand
+    $log('Neue Anmeldung – smtp-config.php NICHT gefunden (' . $cfgfile . ') -> Fallback PHP mail()');
     $headers  = "From: NSB Anmeldung <{$ABSENDER}>\r\n";
     $headers .= "Reply-To: {$eltern_name} <{$email}>\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     $betreff_enc = '=?UTF-8?B?' . base64_encode($betreff) . '?=';
     foreach ($EMPFAENGER as $to) {
-        if (!mail($to, $betreff_enc, $text, $headers, '-f ' . $ABSENDER)) {
-            $ok = false;
-        }
+        $sent = mail($to, $betreff_enc, $text, $headers, '-f ' . $ABSENDER);
+        $log('  -> mail() an ' . $to . ': ' . ($sent ? 'OK (an Mailserver uebergeben)' : 'FEHLER'));
+        if (!$sent) { $ok = false; }
     }
 }
 

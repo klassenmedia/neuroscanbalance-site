@@ -3,3 +3,5 @@ Bilder/
 
 # SMTP-Zugangsdaten (nur auf dem Server, nie ins Repo)
 smtp-config.php
+smtpconfig.php
+formular-log.txt

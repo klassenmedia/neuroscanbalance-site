@@ -4,6 +4,11 @@ DirectoryIndex index.html index.htm
 AddDefaultCharset UTF-8
 Options -MultiViews
 
+# Interne Dateien vor Web-Zugriff schützen (SMTP-Zugangsdaten, Formular-Log)
+<FilesMatch "^(smtp-config\.php|smtpconfig\.php|formular-log\.txt)$">
+  Require all denied
+</FilesMatch>
+
 # ══════════════════════════════════════════════════════════
 # KANONISCHE DOMAIN ERZWINGEN
 # Verhindert doppelten Inhalt (SEO) durch http:// bzw. www.-Varianten.
