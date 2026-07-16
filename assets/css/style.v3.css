@@ -486,6 +486,11 @@ details[open] .faq-plus svg{transform:rotate(45deg);}
 .intensiv-dates li:last-child{border-bottom:none;padding-bottom:0;}
 .int-ort{color:#fff;font-weight:700;font-size:15px;}
 .int-datum{color:rgba(255,255,255,.7);font-size:14px;white-space:nowrap;}
+.int-link{display:flex;justify-content:space-between;align-items:center;gap:1rem;width:100%;text-decoration:none;border-radius:8px;margin:-.3rem -.55rem;padding:.3rem .55rem;transition:background .15s ease;}
+.int-link:hover{background:rgba(255,255,255,.09);}
+.int-link:hover .int-ort{color:#f0a868;}
+.int-link:hover .int-datum{color:rgba(255,255,255,.9);}
+.int-link:focus-visible{outline:2px solid #f0a868;outline-offset:2px;}
 
 /* ── FOOTER ── */
 footer{background:#0d2137;padding:3rem 2rem 1.8rem;}
@@ -720,4 +725,61 @@ footer ul li a:hover{color:rgba(255,255,255,.85);}
   .article-content .lead{font-size:17px;}
   .article-content p,.article-content li{font-size:16px;}
   .article-hero-img{width:calc(100% - 2rem);border-radius:14px;}
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANMELDEFORMULAR (Intensive) – nutzt bestehende Design-Tokens
+   ══════════════════════════════════════════════════════════ */
+.form-head{max-width:780px;margin:0 auto;padding:2.6rem 1.5rem .3rem;}
+.form-head .section-label{color:var(--accent);font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;}
+.form-head h1{font-size:2.1rem;font-weight:800;color:var(--navy);margin:.1rem 0 .7rem;line-height:1.15;}
+.form-head p{color:var(--text-muted);max-width:60ch;font-size:15.5px;line-height:1.7;}
+.form-wrap{max-width:780px;margin:0 auto;padding:1.4rem 1.5rem 4rem;}
+.form-card{background:var(--bg-white);border-radius:20px;padding:2.2rem 2rem;box-shadow:0 20px 50px -18px rgba(14,107,138,.2),0 4px 12px rgba(0,0,0,.04);border:1px solid rgba(255,255,255,.8);}
+fieldset.form-section{border:none;padding:0;margin:0 0 2rem;}
+.form-section-title{font-size:1.12rem;font-weight:800;color:var(--navy);margin:0 0 1.1rem;padding-bottom:.55rem;border-bottom:1px solid #ece7df;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.2rem;}
+.field{display:flex;flex-direction:column;gap:.35rem;}
+.field.full{grid-column:1 / -1;}
+.field label{font-size:13.5px;font-weight:600;color:var(--navy);}
+.field .req{color:var(--accent);}
+.field input,.field select,.field textarea{font-family:var(--sans);font-size:15px;padding:11px 13px;border:1px solid #d9d2c7;border-radius:10px;background:#fff;color:var(--text);width:100%;transition:border-color .15s,box-shadow .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(210,120,60,.15);}
+.field textarea{min-height:82px;resize:vertical;}
+.field .hint{font-size:12px;color:var(--text-light);}
+.form-consent{display:flex;flex-direction:column;gap:1rem;margin-top:.3rem;}
+.consent-row{display:flex;gap:.7rem;align-items:flex-start;font-size:13.5px;color:var(--text);line-height:1.55;}
+.consent-row input{margin-top:2px;width:18px;height:18px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;}
+.consent-row a{color:var(--accent);font-weight:600;}
+.form-hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.form-submit{
+  margin-top:1.8rem;width:100%;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 28px;
+  background:linear-gradient(180deg,#e8965a 0%,var(--accent) 48%,#9c5629 100%);
+  color:#fff;border-radius:14px;font-size:15.5px;font-weight:700;text-decoration:none;
+  border:none;cursor:pointer;font-family:var(--sans);
+  text-shadow:0 1px 2px rgba(90,40,10,.35);
+  box-shadow:
+    0 2px 1px rgba(255,255,255,.45) inset,
+    0 -4px 10px rgba(110,55,18,.5) inset,
+    0 8px 16px -3px rgba(160,80,30,.55),
+    0 16px 34px -8px rgba(160,80,30,.45);
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.form-submit:hover{transform:translateY(-2px);filter:brightness(1.07);box-shadow:0 2px 1px rgba(255,255,255,.5) inset,0 -4px 10px rgba(110,55,18,.5) inset,0 12px 24px -3px rgba(160,80,30,.6),0 24px 46px -10px rgba(160,80,30,.5);}
+.form-submit:active{transform:translateY(1px);box-shadow:0 1px 1px rgba(255,255,255,.25) inset,0 -2px 5px rgba(110,55,18,.4) inset,0 4px 10px -3px rgba(160,80,30,.55);}
+.form-submit svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;}
+.form-banner{border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.6rem;font-size:14.5px;line-height:1.55;}
+.form-banner.ok{background:#e6f4ed;color:#1f7a4a;border:1px solid #bfe3cd;}
+.form-banner.err{background:#fdecea;color:#b5372a;border:1px solid #f3c9c3;}
+.form-privacy{font-size:12.5px;color:var(--text-light);line-height:1.65;margin-top:1.3rem;}
+.danke-box{max-width:640px;margin:0 auto;padding:3rem 1.5rem;text-align:center;}
+.danke-box .danke-icon{width:66px;height:66px;border-radius:50%;background:#e6f4ed;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.2rem;}
+.danke-box .danke-icon svg{width:32px;height:32px;stroke:#1f7a4a;fill:none;stroke-width:2.4;}
+.danke-box h1{font-size:1.9rem;font-weight:800;color:var(--navy);margin-bottom:.6rem;}
+.danke-box p{color:var(--text-muted);font-size:16px;line-height:1.7;margin-bottom:1.6rem;}
+@media(max-width:620px){
+  .form-head h1{font-size:1.7rem;}
+  .form-card{padding:1.6rem 1.2rem;}
+  .form-grid{grid-template-columns:1fr;}
 }
