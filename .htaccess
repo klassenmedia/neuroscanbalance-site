@@ -26,7 +26,19 @@ Options -MultiViews
   # 2) www. -> ohne www (kanonische Domain)
   RewriteCond %{HTTP_HOST} ^www\.neuroscanbalance-badessen\.de$ [NC]
   RewriteRule ^ https://neuroscanbalance-badessen.de%{REQUEST_URI} [L,R=301]
+
+  # 3) Alt-URLs der frueheren WordPress-Seite auf die passenden neuen Ziele.
+  #    Reihenfolge: spezifische Regel zuerst, Sammel-Regel danach.
+  #    Bewusst NICHT pauschal auf die Startseite -> Google wertet das als Soft-404.
+  RewriteRule ^2025/[0-9]{2}/adhs-bei-kindern-ohne-medikamente-behandeln/?$ /blog/neuroscanbalance-bei-kindern.html [R=301,L]
+  RewriteRule ^[0-9]{4}/[0-9]{2}/.*$ /blog/ [R=301,L]
+  RewriteRule ^(wp-content|wp-includes|wp-admin|wp-login\.php) / [R=301,L]
+  RewriteRule ^category/.*$ /blog/ [R=301,L]
+  RewriteRule ^tag/.*$ /blog/ [R=301,L]
 </IfModule>
+
+# Eigene Fehlerseite statt der nackten Apache-Meldung
+ErrorDocument 404 /404.html
 
 # ══════════════════════════════════════════════════════════
 # KOMPRESSION KOMPLETT ABSCHALTEN
