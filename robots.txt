@@ -14,5 +14,7 @@ User-agent: ClaudeBot
 Allow: /
 User-agent: Google-Extended
 Allow: /
+User-agent: Google-Agent
+Allow: /
 
 Sitemap: https://neuroscanbalance-badessen.de/sitemap.xml
