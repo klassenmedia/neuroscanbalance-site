@@ -1,182 +1,274 @@
-# /goal — SEO-Briefing umsetzen (71 → 92 Punkte)
+# /goal — Nachbesserung nach Re-Audit (86 → 95 Punkte)
 
-Setze das Umsetzungs-Briefing vom 28.07.2026 für neuroscanbalance-badessen.de um.
-Arbeite die Pakete **in dieser Reihenfolge** ab. Falls Argumente übergeben wurden
-(z. B. `/goal P2 P3`), nur die genannten Pakete ausführen: $ARGUMENTS
+Setze die Nachbesserungsliste vom 28.07.2026 (Re-Audit nach dem ersten
+SEO-Durchlauf) für neuroscanbalance-badessen.de um. Arbeite die Pakete
+**in dieser Reihenfolge** ab. Falls Argumente übergeben wurden (z. B.
+`/goal N1 N3`), nur die genannten Pakete ausführen: $ARGUMENTS
+
+Das erste Briefing (71 → 92 Punkte, Pakete 1–6) ist bereits vollständig
+umgesetzt und live, inklusive `hwg-wording`-Merge. Diese Datei ersetzt den
+alten Plan komplett — nichts von unten überschneidet sich mit dem, was
+schon erledigt ist.
 
 ## Verbindliche Rahmenregeln (vor dem Start lesen)
 
-1. **CLAUDE.md gilt.** Insbesondere: kein `aggregateRating` ohne sichtbare echte
-   Testimonials; Intensiv-Preis nicht auf die Startseite; „Intensive" als Wording;
-   nach Content-Änderungen `lastmod` in sitemap.xml; llms.txt synchron halten.
-2. **Alle neuen sichtbaren Texte durch den entkiisierer-Skill** (.claude/skills/):
-   keine Fettungen im Fließtext, keine Frage-Überschriften-Serien, Dreierketten
-   und Symmetrie brechen, Satzlängen 3–40 Wörter mischen. Keine erfundenen
-   Anekdoten, Zahlen oder Zitate — fehlende Konkretheit als Lücke für Willi
-   ausweisen statt sie zu erfinden.
-3. **Design-System wiederverwenden:** styles nur in `assets/css/style.v3.css`
-   ergänzen (nie style.css), Fonts per preconnect+link im Head (nie @import),
-   Grids mit `minmax(0,1fr)`, Bilder immer mit width/height, unterhalb des
-   Viewports `loading="lazy"`. Buttons = bestehende 3D-Klassen (btn-nav,
-   article-cta-btn).
-4. **Verifizieren vor jedem Push:** Playwright headless
-   (`/opt/pw-browsers/chromium-1194/chrome-linux/chrome` via executable_path),
-   390px UND 360px, `document.documentElement.scrollWidth` ≤ Viewport. Jede
-   JSON-LD-Änderung mit `json.loads()` prüfen. PHP-Dateien mit `php -l`.
-5. **Deploy:** Commit auf `main` pushen = automatisch live (~1 Min, Auto-Tag
-   `live-*`). Kleine, thematisch getrennte Commits je Paket.
-6. **Abschlussbericht:** Am Ende alle geänderten SICHTBAREN Texte auflisten
-   (vorher/nachher bei H1/H2-Änderungen) + Screenshots der neuen Seiten senden,
-   damit Andreas/Willi sie freigeben oder korrigieren können.
+1. **CLAUDE.md gilt.** Insbesondere: kein `aggregateRating` ohne sichtbare
+   echte Testimonials; Intensiv-Preis nicht auf die Startseite bzw. nicht
+   als fester Zahlenwert im Schema; „Intensive" als Wording; nach
+   Content-Änderungen `lastmod` in `sitemap.xml`; `llms.txt` synchron halten;
+   Preise an ALLEN in CLAUDE.md gelisteten Stellen synchron halten.
+2. **Alle neuen/erweiterten sichtbaren Texte durch den entkiisierer-Skill**
+   (`.claude/skills/`): keine Fettungen im Fließtext, keine
+   Frage-Überschriften-Serien, Dreierketten und Symmetrie brechen,
+   Satzlängen 3–40 Wörter mischen. KEINE erfundenen Anekdoten, Zahlen,
+   Ausbildungsdetails oder Zitate — fehlende Konkretheit (z. B. genaue
+   Ausbildungsdauer, genaue Fallzahlen) als offene Lücke für Willi im
+   Abschlussbericht ausweisen statt sie zu erfinden.
+3. **Vorab-Check statt Blindübernahme:** Die Nachbesserungsliste wurde von
+   einem externen Audit-Tool erzeugt und enthält mindestens eine bekannte
+   Ungenauigkeit (falsche Schema-`@id`, siehe Paket N3). Vor jeder Änderung
+   den aktuellen Stand der betroffenen Datei lesen und die Vorgabe daran
+   spiegeln — nicht Snippets aus der Vorlage 1:1 reinkopieren, ohne zu
+   prüfen, ob sie zum bestehenden Code passen.
+4. **Design-System wiederverwenden:** Styles nur in `assets/css/style.v3.css`
+   ergänzen (nie `style.css`), bestehende Klassen wiederverwenden
+   (`.article-content`, `.article-table-wrap`, `.faq-plus`/`.faq-answer`,
+   `.article-more`, `.article-cta*`). Keine neuen Farben/Radien erfinden.
+5. **Verifizieren vor jedem Push:** Playwright headless
+   (`/opt/pw-browsers/chromium-1194/chrome-linux/chrome` via
+   `executable_path`), 390px UND 360px, `document.documentElement.scrollWidth`
+   ≤ Viewport. Jede JSON-LD-Änderung mit `json.loads()` prüfen. Wortzahl
+   je Unterseite per Python zählen (nur sichtbarer Text in
+   `.article-content`, keine Nav/Footer/Script-Inhalte).
+6. **Deploy:** Commit auf `main` pushen = automatisch live (~1 Min,
+   Auto-Tag `live-*`). Kleine, thematisch getrennte Commits je Paket. Diese
+   Runde enthält keine rechtlich heiklen Textänderungen — ein separater
+   Branch wie beim letzten Mal (`hwg-wording`) ist NICHT nötig, alles kann
+   direkt auf `main`.
+7. **Abschlussbericht:** Am Ende alle erweiterten/geänderten SICHTBAREN
+   Texte auflisten (neue H2-Überschriften je Seite + grobe Wortzahl
+   vorher/nachher) + Screenshots der überarbeiteten Seiten senden, damit
+   Andreas/Willi sie freigeben oder korrigieren können.
 
-## Status: bereits erledigt am 28.07. (nicht wiederholen)
+## Bereits gut — nicht anfassen
 
-- ✅ 1.1 301-Redirects für WordPress-Alt-URLs in `.htaccess`
-- ✅ 1.2 `404.html` erstellt + `ErrorDocument 404` gesetzt
-- ✅ 1.3 Impressum: OS-Plattform-Absatz raus, § 18 Abs. 2 MStV statt RStV
+Laut Re-Audit unverändert lassen: 301-Redirects, 404-Seite, Impressum,
+alle 8 Unterseiten-Grundgerüste (H1/Description/Breadcrumb/BreadcrumbList),
+Blog-interne-Verlinkung, Vergleichstabelle im Physio-Artikel, WebP-Bilder,
+`llms.txt`-Grundgerüst, HWG-Wording.
 
 ---
 
-## Paket 1 — Rest (Titles, H1, Bilder)
+## Paket N1 — Unterseiten inhaltlich ausbauen (größter Hebel)
 
-**1.4 Titles & Descriptions.**
-- Startseiten-Title (53 Zeichen): `NeuroScanBalance Bad Essen & Osnabrück | Willi Klassen`
-- Startseiten-Description: `Sanfte neurologische Förderung für Kinder und Erwachsene in Bad Essen. Zertifizierter NeuroScanBalance-Trainer Willi Klassen. Jetzt Termin vereinbaren.`
-- Alle 7 Blog-Descriptions + 2 Drafts auf 150–160 Zeichen bringen. Muster:
-  Problem in Frageform → konkrete Antwort andeuten → Handlungsimpuls. Zeichen
-  je Description per Python zählen und im Bericht ausgeben.
+**Aufwand ca. 3 Std · Wirkung +2 Punkte**
 
-**1.5 H1 der Startseite erweitern** (SICHTBARER TEXT → im Bericht ausweisen):
-- H1: `NeuroScanBalance in Bad Essen — die sanfte Alternative, wenn klassische Therapie an ihre Grenzen kommt. Der Weg über das Gehirn.`
-  („Therapie" meint hier die klassische Therapie anderer — das ist ok, siehe 5.4.)
-- Erste H2 „Die Ärzte sagten, es gehe nicht." → `Meine Geschichte: Die Ärzte sagten, es gehe nicht.`
-- Danach Hero-Layout bei 390/360px prüfen (längere H1 darf nichts sprengen).
+Alle acht neuen Seiten liegen unter der Ziellänge (Thin-Content-Risiko).
+Vor dem Schreiben: aktuelle Wortzahl je Seite selbst neu zählen (die Zahlen
+unten sind die Werte des Audits vom 28.07., können durch die
+Bild-Breite-Fixes danach leicht abweichen — Python-Wortzählung auf den
+Text in `.article-content` ansetzen, keine Schätzung).
 
-**1.6 WebP + Alt-Texte.**
-- `willi-klassen-portrait.jpg`, `nsb-logo.png`, `nsb-logo-white.png` zusätzlich
-  als WebP erzeugen (Pillow ist installiert), Einbindung per `<picture>` mit
-  Fallback. Favicons NICHT anfassen.
-- OG-Images (og:image) als JPG/PNG lassen — WhatsApp/Facebook können kein WebP
-  in allen Fällen; nur die `<img>`-Einbindungen umstellen.
-- Alt-Texte differenzieren: jedes Logo-/Bild-Alt beschreibt, was zu sehen ist;
-  keine 3 identischen „NeuroScanBalance Feinmotorik".
-- Hero: erstes sichtbares Bild `fetchpriority="high"` und KEIN lazy; Rest lazy.
-  Achtung: Hero-Slides laufen über CSS-Backgrounds + data-bg-Lazyload in
-  main.js — das System NICHT umbauen, nur echte `<img>` optimieren.
-
-## Paket 2 — Eigene Unterseiten (größter Hebel)
-
-**2.1 Sechs neue Seiten.** Inhalt von der Startseite AUSBAUEN (600–900 Wörter,
-entkiisiert), nicht kopieren. Die Startseite behält die Kurzfassung und
-verlinkt mit beschreibendem Ankertext auf die Detailseite.
-
-| Datei | Title | H1-Thema |
+| Seite | Ziel-Wortzahl | neue H2-Themen |
 |---|---|---|
-| `ueber-mich.html` | Willi Klassen — NeuroScanBalance Trainer Bad Essen | Willis Geschichte (Tochter, Ausbildung, Zertifizierung) |
-| `ablauf.html` | Ablauf einer NeuroScanBalance Lesson \| Bad Essen | Lesson, Intensivblock, Integrationspause |
-| `intensiv-wochenende.html` | NeuroScanBalance Intensiv-Wochenende für Kinder | 3 Tage/6 Lessons/2 Trainer, Termine-Verweis, Anmeldung-Link |
-| `kinder.html` | NeuroScanBalance für Kinder — für wen sie geeignet ist | Zielgruppen, Diagnosen, ab Säuglingsalter |
-| `erwachsene.html` | NeuroScanBalance für Erwachsene nach Schlaganfall | Erwachsene, chronische Einschränkungen |
-| `kosten.html` | Was kostet NeuroScanBalance? Preise & Kassenleistung | 80 € Lesson, Intensive auf Anfrage, Selbstzahler, Stiftungen |
+| `ueber-mich.html` | ~700 | „Meine Ausbildung", „Warum ich nur mit Pausen arbeite", „Was ich nicht verspreche" |
+| `kinder.html` | ~700 | „Ab welchem Alter?", „Was bringt eine Lesson bei ADHS?", „Wie unterscheidet sich das von Frühförderung?" |
+| `erwachsene.html` | ~650 | „Nach dem Schlaganfall: was realistisch geht", „Bei chronischen Schmerzen", „Sturzprophylaxe im Alter" |
+| `intensiv-wochenende.html` | ~700 | „Tagesablauf", „Was mitzubringen ist", „Übernachtung und Anfahrt" |
+| `ablauf.html` | ~650 | „Was passiert in den ersten fünf Minuten?", „Wie viele Lessons braucht es?", „Was Eltern währenddessen tun" |
+| `kosten.html` | ~600 | „Warum die Kasse nicht zahlt", „Was Stiftungen übernehmen und wie man sie anfragt", „Kostenbeispiel für ein Intensive" |
+| `neuroscanbalance-minden.html` | ~600 | je ein Absatz: Versorgungslage in der Region (nur wenn belegbar, sonst weglassen), konkretes Anfahrtsbeispiel mit Fahrzeit, regionaler Bezugspunkt |
+| `neuroscanbalance-osnabrueck.html` | ~600 | dieselbe Struktur wie Minden, aber eigene Formulierungen |
 
-Jede Seite: eigene Description (150–160), genau eine H1, sichtbare Breadcrumb
-(bestehende .breadcrumb-Klasse), Kontakt-CTA am Ende (article-cta-Klassen),
-Links auf 2–3 passende Blogartikel, gleicher Head-Standard wie blog-Seiten
-(preconnects, favicon, theme-color, canonical, OG, Matomo).
-Inhaltsquellen: index.html-Sektionen, blog-Artikel, llms.txt. KEINE neuen
-Fakten erfinden; wo Konkretes fehlt (z. B. Schlaganfall-Erfahrung), allgemein
-bleiben und die Lücke im Bericht für Willi notieren.
+**Regeln für die Ergänzungen:**
 
-Speziell für `kosten.html`: einen eigenen Abschnitt „Unterstützung durch
-Stiftungen" aufnehmen — es gibt die Möglichkeit, dass eine Stiftung die
-Kosten übernimmt (Hinweis von Andreas, 28.07.). Allgemein formulieren
-(Stiftungen für Familien mit Kindern mit Behinderung/Entwicklungsstörungen
-können auf Antrag Kosten übernehmen; Willi unterstützt beim Antrag, wenn
-gewünscht → als Angebot nur aufnehmen, falls Willi das bestätigt). KEINE
-konkreten Stiftungsnamen erfinden — im Bericht bei Willi anfragen, mit
-welchen Stiftungen es schon geklappt hat, damit die Seite konkret werden kann.
+- Jeder neue H2-Block bekommt direkt darunter eine Antwort-Kapsel: erster
+  Absatz 45–60 Wörter, beantwortet die Überschrift im ersten Satz, ohne
+  Links, isoliert verständlich (Regel steht schon in CLAUDE.md, Paket 4.4
+  vom letzten Durchlauf).
+- „Kostenbeispiel für ein Intensive" auf `kosten.html`: KEINE konkrete
+  Preiszahl nennen (CLAUDE.md-Regel: Intensiv-Preis bleibt „auf Anfrage").
+  Stattdessen erklären, wovon der Preis abhängt (Personenzahl, Ort, Umfang)
+  — ein Rechenbeispiel ohne Endsumme.
+- „Meine Ausbildung" auf `ueber-mich.html`: nur das erweitern, was schon
+  belegt ist (Zertifizierung durch NeuroScanBalance-Institut, Trainer- und
+  Kindertrainer-Ausbildung). Keine erfundenen Ausbildungsinhalte, -dauer
+  oder -orte.
+- **Lokalseiten dürfen sich nicht angleichen.** Vor dem Commit einen
+  Python-Vergleich der Wortüberlappung zwischen `neuroscanbalance-minden.html`
+  und `neuroscanbalance-osnabrueck.html` laufen lassen (einfacher
+  Jaccard-Vergleich auf Wortebene reicht) und im Bericht die Überlappung in
+  % angeben. Keine identischen Satzblöcke zwischen beiden Seiten.
 
-**2.2 Zwei lokale Landingpages:** `neuroscanbalance-osnabrueck.html`,
-`neuroscanbalance-minden.html`. Kein Textklon: je eigener Inhalt mit Anfahrt
-und realer Fahrzeit (Bad Essen–Osnabrück ca. 30 Min über A33/B51; Minden ca.
-30 Min über B65 — vor Verwendung mit Kartenlogik plausibilisieren), ÖPNV-Hinweis
-(Bahnhof Bohmte), Einzugsgebiet-Bezug aus llms.txt. Versorgungslage nur nennen,
-wenn belegbar — sonst weglassen.
+## Paket N2 — Interne Verlinkung auf den Unterseiten
 
-**2.3 Breadcrumbs als Schema:** `BreadcrumbList`-JSON-LD auf allen Unterseiten
-UND allen Blogartikeln (sichtbare Breadcrumb existiert im Blog schon).
+**Aufwand ca. 1 Std · Wirkung +1 Punkt**
 
-**Nacharbeiten Paket 2:** alle neuen URLs in sitemap.xml (+ lastmod), llms.txt
-um Unterseiten-Liste ergänzen, Startseiten-Nav prüfen (One-Pager-Anker behalten;
-Unterseiten werden aus den Sektionen heraus verlinkt, nicht alle in die Nav).
+Aktuell: `kosten.html` 1 Link, beide Lokalseiten 0 Links im Fließtext
+(Stand Audit — vor dem Commit den IST-Zustand neu prüfen, da bei den
+Lokalseiten inzwischen z. B. `kinder.html`/`erwachsene.html`-Links stehen
+könnten).
 
-## Paket 3 — Interne Verlinkung
+- Pro Unterseite **3–5 kontextuelle Links im Fließtext**, beschreibender
+  Ankertext (nicht „mehr dazu hier").
+- „Passt dazu"-Block (= bestehende `.article-more`-Klasse) mit 3 manuell
+  gewählten, thematisch verwandten Zielen pflegen/ergänzen.
 
-**3.1** Pro Blogartikel 3–5 kontextuelle Links im Fließtext mit beschreibendem
-Ankertext (nicht „mehr dazu hier"). Bestehende Absätze dafür minimal umformulieren
-ist erlaubt — Ton beibehalten (entkiisiert).
-**3.2** Den „Weiterlesen"-Block je Artikel kuratieren: 3 thematisch passende
-Artikel (nicht die neuesten) + 1 Link auf die passende neue Unterseite aus Paket 2.
+Verlinkungsmatrix (Dateinamen aus dem Repo, nicht die Kurznamen aus der
+Vorlage):
 
-## Paket 4 — GEO-Optimierung
+```
+kosten.html                    → ablauf.html, intensiv-wochenende.html, blog/ablauf-einzel-lesson-und-intensiv-wochenende.html
+ablauf.html                    → kosten.html, kinder.html, blog/was-ist-neuroscanbalance.html
+kinder.html                    → ablauf.html, intensiv-wochenende.html, blog/mein-kind-entwickelt-sich-langsamer.html
+erwachsene.html                → ablauf.html, kosten.html, blog/was-ist-neuroscanbalance.html
+intensiv-wochenende.html       → ablauf.html, kosten.html, blog/ablauf-einzel-lesson-und-intensiv-wochenende.html
+ueber-mich.html                → ablauf.html, kinder.html, blog/was-ist-neuroscanbalance.html
+neuroscanbalance-osnabrueck.html / -minden.html → ablauf.html, kosten.html, kinder.html
+```
 
-**4.1 Quellen:** Je Artikel einen Block „Quellen & weiterführende Informationen"
-mit 2–3 externen Links (`rel="noopener"`, OHNE nofollow). NUR Institutionen
-verlinken, deren Startseiten-URLs stabil sind (z. B. awmf.org, bvkj.de,
-kindergesundheit-info.de) — keine tiefen Links auf ungeprüfte PDFs, da aus der
-Sandbox keine Live-Prüfung möglich ist. Im Bericht vermerken: Willi soll
-konkrete Leitlinien/Artikel nachliefern, dann tiefer verlinken.
-**4.2 Vergleichstabelle** im Physio-Artikel: Zeilen NeuroScanBalance /
-Physiotherapie / Ergotherapie; Spalten Ziel · Ablauf · Dauer · Schmerzen ·
-Kostenträger · wann sinnvoll. Nur belegbare Aussagen (NSB-Fakten aus llms.txt;
-Physio/Ergo allgemeinüblich formulieren). Mobil: Tabelle in Container mit
-`overflow-x:auto`.
-**4.3 FAQ je Artikel:** 3–5 echte Elternfragen als sichtbarer Block am
-Artikelende + `FAQPage`-JSON-LD je Artikel. HWG-konform (keine Heilversprechen),
-entkiisiert. Achtung: FAQPage darf je Seite nur die dort sichtbaren Fragen enthalten.
-**4.4 Antwort-Kapsel-Regel** in CLAUDE.md dokumentieren: erster Absatz nach
-jeder H2 = 45–60 Wörter, beantwortet die Überschrift im ersten Satz, keine
-Links, isoliert verständlich.
+Zusätzlich: von der Startseite und aus mindestens einem passenden
+Blogartikel je einen Link **auf** beide Lokalseiten setzen (prüfen, ob das
+aus dem letzten Durchlauf schon existiert — im `maps-region`-Absatz von
+`index.html` stehen bereits Links auf beide Lokalseiten; falls das
+weiterhin die einzigen eingehenden Links sind, zusätzlich aus einem
+Blogartikel heraus verlinken, z. B. `blog/neuroscanbalance-bei-kindern.html`
+oder `blog/was-ist-neuroscanbalance.html`).
 
-## Paket 5 — Trust-Signale
+## Paket N3 — Service-Schema auf die Angebotsseiten
 
-**5.1 Testimonials: NUR VORBEREITEN, NICHT LIVE.** Auskommentierten
-Testimonial-Bereich + Schema-Vorlage (aggregateRating/review) als HTML-Kommentar
-anlegen. Livegang erst, wenn Willi echte, dokumentierte Bewertungen liefert —
-CLAUDE.md-Regel. Im Bericht als offene Aufgabe an Willi ausweisen.
-**5.2 ProfilePage-Schema** auf ueber-mich.html, verknüpft mit dem bestehenden
-Person-Knoten (`@id: .../#willi` — die im Briefing genannte `#person`-ID ist
-falsch, echte ID aus index.html verwenden).
-**5.3 Service-Schema** für Einzel-Lesson (80 €) und Intensive (OHNE Preis!) im
-JSON-LD der Startseite ergänzen; provider-`@id` = echte LocalBusiness-ID aus
-index.html (`#business`, nicht `#localbusiness`).
-**5.4 HWG-Wording:** `grep -rn "Therapie\|Behandlung\|behandeln"` über alle
-HTML + llms.txt. Ersetzen NUR wo es das EIGENE Angebot bezeichnet
-(→ Förderung/Training/Lernmethode/Einheit). „Physiotherapie", „ärztliche
-Behandlung" u. ä. (fremde Leistungen) bleiben. Titles/Descriptions/JSON-LD
-mitprüfen (z. B. FAQ „Wie läuft eine Behandlung ab?"). Jede Ersetzung im
-Bericht listen mit Hinweis: vor Livegang anwaltlich gegenlesen lassen —
-deshalb diese Textänderungen auf einem Branch `hwg-wording` sammeln und NICHT
-auf main mergen, bis Andreas freigibt.
+**Aufwand ca. 20 Min · Wirkung +1 Punkt**
 
-## Paket 6 — nicht ausführbar durch Claude
+`Service`-Schema liegt bisher nur auf der Startseite (`#service-lesson`,
+`#service-intensive`). Zusätzlich auf `ablauf.html`, `kosten.html` und
+`intensiv-wochenende.html` ins jeweilige `@graph` einfügen.
 
-`docs/sichtbarkeit-todo-willi.md` erstellen mit den 7 Punkten aus dem Briefing
-(GBP-Pflege, Bewertungen sammeln, Bing Webmaster Tools, YouTube, Wikidata,
-Markenerwähnungen, Verzeichnis-NAP-Konsistenz) — als abhakbare Liste mit je
-2–3 Sätzen Anleitung. docs/ ist vom Deploy ausgeschlossen.
+**Korrektur zur Vorlage:** Die Beispiel-Snippets aus der Nachbesserungsliste
+verweisen mit `provider.@id` auf `#localbusiness` — das ist FALSCH, der
+echte LocalBusiness-Knoten in `index.html` heißt `#business`. Immer
+`"provider": {"@id": "https://neuroscanbalance-badessen.de/#business"}`
+verwenden, sonst entsteht ein zweiter, unverbundener Graph-Eintrag.
+
+- `kosten.html`: zwei Service-Knoten — Einzel-Lesson (mit `offers.price`
+  „80.00" EUR) und Intensive-Wochenende (mit `priceSpecification`-Text
+  „Preis auf Anfrage, abhängig von Umfang und Ort", KEIN numerischer Preis).
+- `ablauf.html`: ein Service-Knoten für die Einzel-Lesson (gleiche Struktur
+  wie auf der Startseite, `@id` mit `#service-lesson-ablauf` o. ä., damit
+  keine doppelte `@id` quer über die Seiten entsteht — jede Seite braucht
+  ihre eigene eindeutige `@id`, auch wenn der Inhalt ähnlich ist).
+- `intensiv-wochenende.html`: ein Service-Knoten mit `priceSpecification`
+  wie bei `kosten.html`.
+- Jeweils `serviceType`, `areaServed` (Osnabrücker Land) und `audience`
+  wie in der Vorlage übernehmen, mit `provider`-Korrektur wie oben.
+
+## Paket N4 — Vergleichstabelle auf /kosten.html
+
+**Aufwand ca. 30 Min · Wirkung +1 Punkt**
+
+Als echte `<table>` in `.article-table-wrap` (Klasse existiert schon,
+CSS ist bereits auf Textbreite gefixt — einfach wiederverwenden, nicht neu
+bauen).
+
+Spalten: **Format · Dauer · Umfang · Preis · geeignet für**
+Zeilen: **Einzel-Lesson · Intensive-Wochenende · Folgetermine**
+
+„Folgetermine" = einzelne Lessons nach einem abgeschlossenen Intensive
+oder zwischen zwei Intensives, gleiches Format/gleicher Preis wie die
+Einzel-Lesson, nur mit dem Zusatz „nach Bedarf" in der Spalte „Umfang".
+Intensive-Preis in der Tabelle als „auf Anfrage" (kein Zahlenwert).
+
+## Paket N5 — Bild-Ladepriorität prüfen und nachziehen
+
+**Aufwand ca. 5–15 Min · Wirkung +0,5 Punkte**
+
+Die Vorlage nennt `assets/img/willi-klassen-portrait.webp` als
+„Hero-Bild" mit fehlendem `fetchpriority` — das ist ungenau: Das echte
+LCP-Element der Startseite ist der Hero-Slider-Hintergrund
+(`assets/img/hero/slide-1.webp`), der bereits per
+`<link rel="preload" as="image" fetchpriority="high">` im `<head>` von
+`index.html` priorisiert wird (aus dem ersten Durchlauf). Diesen Preload
+NICHT doppeln oder auf die Portrait-Datei umbiegen.
+
+Tatsächliche Lücke: Die `.article-hero-img`-Bilder auf den Blogartikeln
+und auf `ueber-mich.html` (jeweils das erste sichtbare Bild der Seite,
+kein `loading="lazy"`, aber auch kein `fetchpriority`/`decoding`) haben
+noch keine explizite Ladepriorität. Auf allen Seiten mit
+`<img class="article-hero-img" ...>` ergänzen:
+
+```html
+<img class="article-hero-img" src="..." alt="..." width="1600" height="900"
+     fetchpriority="high" decoding="async">
+```
+
+Alle anderen Bilder (Logo im Footer, About-Badge etc.) behalten
+`loading="lazy"` wie bisher — nur das jeweils erste, große Bild pro Seite
+bekommt die Priorität.
+
+## Paket N6 — robots.txt: Google-Agent ergänzen
+
+**Aufwand ca. 5 Min · Wirkung +0,5 Punkte**
+
+Aktuellen Aufbau von `robots.txt` zuerst lesen (bestehendes Muster aus
+freigegebenen Bots übernehmen), dann ergänzen:
+
+```
+User-agent: Google-Agent
+Allow: /
+```
+
+An der Stelle einfügen, wo die anderen namentlich freigegebenen Bots
+stehen (GPTBot, ClaudeBot, …), nicht ans Dateiende ohne Kontext.
+
+---
+
+## Vorbereitet, aber nicht in diesem Durchlauf — Testimonials
+
+Bereits erledigt (Paket 5 vom letzten Durchlauf): Schema-Vorlage für
+`aggregateRating`/`review` liegt als HTML-Kommentar in `index.html`,
+Testimonial-Bereich ist auskommentiert. Kein weiterer Code-Task hier.
+Zwei Regeln gelten weiter, sobald Willi Freigaben hat (nicht jetzt
+umsetzen, nur als Erinnerung im Abschlussbericht wiederholen):
+
+1. Nur Bewertungen ins Schema, die auch sichtbar auf der Seite stehen.
+2. Realistische Bewertung (4,7–4,9) statt glatter 5,0 verwenden.
+
+## Nicht Claude-Aufgabe — für docs/sichtbarkeit-todo-willi.md ergänzen
+
+Diese Punkte NICHT selbst umsetzen, sondern als neuen Punkt in die
+bestehende `docs/sichtbarkeit-todo-willi.md` eintragen (Datei existiert
+schon aus dem letzten Durchlauf, nur ergänzen, nicht neu anlegen):
+
+- Wikidata-Eintrag für Willi/die Praxis anlegen. Sobald eine Wikidata-URL
+  existiert, sie in `sameAs` BEIDER Schema-Knoten ergänzen (`#business`
+  UND `#willi` in `index.html` — aktuell steht dort nur Instagram bzw.
+  Instagram + Google-Knowledge-Graph-Link). Das ist ein Folge-Task für
+  eine spätere `/goal`-Runde, sobald die URL feststeht.
+- Bewertungen sammeln, Bing Webmaster Tools, Google Business Profile,
+  YouTube, Markenerwähnungen: stehen schon in `docs/sichtbarkeit-todo-willi.md`,
+  nur gegenprüfen, dass nichts fehlt.
 
 ## Abnahme (am Ende ausführen und Ergebnis berichten)
 
-1. `.htaccess`-Redirect-Logik lokal nachvollziehen (Regex gegen Beispiel-URLs
-   testen); Live-`curl -I`-Stichprobe kann nur Andreas machen — im Bericht als
-   manuellen Prüfschritt übergeben.
-2. Jede neue Seite: genau eine H1, eigene Description, Breadcrumb, valides
-   JSON-LD (json.loads), kein Overflow bei 390/360px.
-3. Jeder Blogartikel: ≥3 interne Links im Fließtext, ≥2 externe Quellen, FAQ-Block.
-4. Kein `<img>` ohne individuellen Alt-Text; WebP-Auslieferung wo umgestellt.
-5. sitemap.xml vollständig + lastmod aktuell; llms.txt ergänzt.
-6. Screenshots aller neuen Seiten (Desktop + 390px) an Andreas senden.
-7. Manuelle Schritte für Andreas/Willi auflisten: Rich-Results-Test,
-   PageSpeed-Check, Search-Console-Alt-URLs einzeln umleiten, Bing-Sitemap,
-   HWG-Branch freigeben, echte Testimonials liefern.
+1. Keine Unterseite unter 600 Wörtern (Python-Wortzählung, Werte im
+   Bericht auflisten: vorher/nachher je Seite).
+2. Jede Unterseite hat mindestens 3 interne Links im Fließtext
+   (automatisch zählen wie beim letzten Durchlauf).
+3. Lokalseiten: Wortüberlappung neu berechnen und im Bericht angeben,
+   keine identischen Satzblöcke.
+4. `Service`-Schema auf `ablauf.html`, `kosten.html`,
+   `intensiv-wochenende.html` vorhanden, `provider.@id` = `#business`,
+   jede Seite hat eine eigene, eindeutige `@id` je Service-Knoten.
+5. Vergleichstabelle auf `kosten.html` ist eine echte `<table>` in
+   `.article-table-wrap`, kein Overflow bei 390/360px.
+6. `fetchpriority="high" decoding="async"` auf allen
+   `.article-hero-img`-Bildern, `loading="lazy"` bleibt auf allen anderen
+   Bildern erhalten.
+7. `Google-Agent` in `robots.txt`.
+8. `llms.txt` spiegelt die erweiterten Inhalte wider (falls neue Fakten
+   dazukommen, z. B. Stiftungs-Details).
+9. `sitemap.xml`-`lastmod` aller geänderten Seiten aktualisiert.
+10. JSON-LD aller geänderten Seiten mit `json.loads()` validiert.
+11. Screenshots aller inhaltlich erweiterten Seiten (Desktop + 390px) an
+    Andreas senden.
+12. Manuelle Schritte für Andreas/Willi im Bericht auflisten: Rich-Results-
+    Test, PageSpeed-Check, Wikidata-Eintrag (siehe oben).
