@@ -28,6 +28,11 @@ Zeitdruck, aber jeder Haken hier hilft der Website beim Ranking.
 - [ ] **Wikidata-Eintrag prüfen/anlegen.** Ein Eintrag auf wikidata.org mit
   Basisdaten (Name, Beruf, Ort, Website) hilft Suchmaschinen, dich als reale
   Person/Unternehmen einzuordnen. Ich kann dir dabei helfen, wenn du magst.
+  Sobald die Wikidata-URL steht, bitte mir Bescheid geben: Sie wird dann als
+  `sameAs`-Eintrag sowohl beim Person- als auch beim LocalBusiness-Knoten im
+  JSON-LD von `index.html` ergänzt (aktuell steht dort nur Instagram bzw.
+  Instagram + Google-Knowledge-Graph-Link) – das ist ein kurzer Folge-Task
+  für eine spätere `/goal`-Runde.
 
 - [ ] **Markenerwähnungen sammeln.** Wenn andere Websites (Vereine,
   Selbsthilfegruppen, Verzeichnisse) über dich schreiben oder dich verlinken,
@@ -50,4 +55,3 @@ Zeitdruck, aber jeder Haken hier hilft der Website beim Ranking.
 - [ ] In der Search Console prüfen, ob alte WordPress-URLs korrekt als
   „verschoben" (301) erkannt werden.
 - [ ] Bing-Sitemap einreichen (siehe Willi-Aufgabe oben, technischer Teil).
-- [ ] `hwg-wording`-Branch durchsehen und bei Freigabe auf `main` mergen.
