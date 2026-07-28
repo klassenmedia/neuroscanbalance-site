@@ -15,11 +15,14 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
 
 ## Harte Regeln (Konsistenz)
 
-- **Preise/Termine ändern = IMMER 3 Orte synchron halten:**
+- **Preise/Termine ändern = IMMER alle Fundstellen synchron halten:**
   1. Sichtbarer Text in `index.html` (Intensiv-Bereich, FAQ, Kontakt-Box)
   2. JSON-LD-Schema im `<head>` (makesOffer, FAQPage, priceRange)
   3. `llms.txt` (Preise + Terminliste)
-  Die llms.txt ist schon zweimal auseinandergelaufen – nie wieder.
+  4. `kosten.html` (seit SEO-Briefing Paket 2/4: nennt 80 € + „Preis auf Anfrage" fürs Intensive)
+  5. `blog/ablauf-einzel-lesson-und-intensiv-wochenende.html` (nennt ebenfalls 80 €)
+  Die llms.txt ist schon zweimal auseinandergelaufen – nie wieder. Bei neuen
+  Seiten/Artikeln mit Preisnennung: hier in der Liste ergänzen.
 - **Kein `aggregateRating` im Schema**, solange der Testimonial-Bereich
   auskommentiert ist (Google-Richtlinie: Markup ohne sichtbare Entsprechung
   riskiert Rich-Snippet-Abschaltung). Erst wieder rein, wenn echte
@@ -61,6 +64,32 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
   Open-Graph- + Twitter-Card-Tags, JSON-LD mit LocalBusiness + WebSite +
   Person (inkl. `hasCredential`) + FAQPage.
 
+## Content-Standards (SEO/GEO, seit Briefing 28.07.)
+
+- **Antwort-Kapsel-Regel:** Der erste Absatz nach jeder `<h2>` in Blogartikeln
+  und Unterseiten sollte 45–60 Wörter umfassen, die Überschrift im ersten Satz
+  direkt beantworten, ohne Links auskommen und auch isoliert (z. B. als
+  KI-Snippet zitiert) verständlich sein. Gilt für NEUE Abschnitte; bestehende
+  Artikel wurden dafür nicht rückwirkend umgeschrieben.
+- **Interne Verlinkung:** Blogartikel sollten 3–5 kontextuelle Links im
+  Fließtext haben (nicht nur im Weiterlesen-Block), Ankertext beschreibend,
+  nicht „hier klicken". Der Weiterlesen-Block verlinkt auf 2–3 passende
+  Artikel plus mindestens eine thematische Unterseite (`kinder.html`,
+  `erwachsene.html`, `ablauf.html` usw.).
+- **Quellen-Block:** Jeder Blogartikel mit medizinischem Bezug bekommt am
+  Ende einen Abschnitt „Quellen & weiterführende Informationen" mit 2–3
+  externen Links. Nur Startseiten stabiler Institutionen verlinken (z. B.
+  `awmf.org`, `bvkj.de`, `kindergesundheit-info.de`,
+  `gesundheitsinformation.de`) – keine tiefen Links auf einzelne PDFs/Artikel,
+  da die Aktualität von hier aus nicht laufend geprüft werden kann.
+- **FAQ je Artikel:** 3–5 Fragen als sichtbarer `<details>`-Block
+  (`.faq-plus`/`.faq-answer`-Klassen wiederverwenden) plus passendes
+  `FAQPage`-JSON-LD im selben `@graph`. Nur Fragen aufnehmen, die auch
+  sichtbar auf der Seite stehen (kein Schema ohne sichtbare Entsprechung).
+- **Vergleichstabellen:** in `.article-table-wrap` (CSS in `style.v3.css`)
+  wickeln – erzeugt `overflow-x:auto`, damit Tabellen auf 390/360px nicht die
+  Seite sprengen.
+
 ## Verifizieren vor dem Push
 
 Responsive-Test headless (Chromium liegt unter
@@ -75,10 +104,14 @@ JSON-LD nach Schema-Änderungen mit `json.loads()` gegenprüfen.
 ```
 index.html          – One-Pager (alle Sektionen)
 impressum.html / datenschutz.html
+404.html             – eigene Fehlerseite (ErrorDocument 404 in .htaccess)
+ueber-mich.html / ablauf.html / intensiv-wochenende.html
+kinder.html / erwachsene.html / kosten.html   – Themen-Unterseiten (SEO Paket 2)
+neuroscanbalance-osnabrueck.html / neuroscanbalance-minden.html – lokale Landingpages
 llms.txt            – KI-Steckbrief (synchron halten!)
 robots.txt          – erlaubt KI-Crawler explizit (GPTBot, ClaudeBot, …)
 sitemap.xml
-.htaccess           – Canonical-Redirects (https, ohne www), Kompression aus
+.htaccess           – Canonical-Redirects (https, ohne www), 301 fuer Alt-URLs, Kompression aus
 assets/css/style.v3.css   – EINZIGE aktive CSS-Datei (style.css = Altstand)
 assets/css/animations.css
 assets/js/main.js         – Menü, Slider, Calendly, Cookie-Banner
