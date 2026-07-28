@@ -27,25 +27,87 @@
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": "https://neuroscanbalance-badessen.de/kosten.html#webpage",
-        "url": "https://neuroscanbalance-badessen.de/kosten.html",
-        "name": "Was kostet NeuroScanBalance?",
-        "inLanguage": "de",
-        "about": {"@id": "https://neuroscanbalance-badessen.de/#business"}
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {"@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://neuroscanbalance-badessen.de/"},
-          {"@type": "ListItem", "position": 2, "name": "Kosten"}
-        ]
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://neuroscanbalance-badessen.de/kosten.html#webpage",
+      "url": "https://neuroscanbalance-badessen.de/kosten.html",
+      "name": "Was kostet NeuroScanBalance?",
+      "inLanguage": "de",
+      "about": {
+        "@id": "https://neuroscanbalance-badessen.de/#business"
       }
-    ]
-  }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://neuroscanbalance-badessen.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kosten"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://neuroscanbalance-badessen.de/kosten.html#service-lesson",
+      "name": "NeuroScanBalance Einzel-Lesson",
+      "serviceType": "Neuroplastische Feinmotorik-Förderung",
+      "provider": {
+        "@id": "https://neuroscanbalance-badessen.de/#business"
+      },
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Osnabrücker Land"
+      },
+      "audience": {
+        "@type": "PeopleAudience",
+        "audienceType": "Kinder mit Entwicklungsherausforderungen und Erwachsene mit chronischen Einschränkungen"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "80.00",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock",
+        "url": "https://neuroscanbalance-badessen.de/kosten.html"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://neuroscanbalance-badessen.de/kosten.html#service-intensive",
+      "name": "NeuroScanBalance Intensive-Wochenende",
+      "serviceType": "Neuroplastische Feinmotorik-Förderung, Intensivformat",
+      "provider": {
+        "@id": "https://neuroscanbalance-badessen.de/#business"
+      },
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Osnabrücker Land"
+      },
+      "audience": {
+        "@type": "PeopleAudience",
+        "audienceType": "Kinder mit Entwicklungsherausforderungen"
+      },
+      "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "priceCurrency": "EUR",
+          "description": "Preis auf Anfrage, abhängig von Umfang und Ort"
+        },
+        "url": "https://neuroscanbalance-badessen.de/kosten.html"
+      }
+    }
+  ]
+}
   </script>
 
   <script>
