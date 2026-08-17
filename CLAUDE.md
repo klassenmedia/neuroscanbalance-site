@@ -21,6 +21,8 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
   3. `llms.txt` (Preise + Terminliste)
   4. `kosten.html` (seit SEO-Briefing Paket 2/4: nennt 80 € + „Preis auf Anfrage" fürs Intensive)
   5. `blog/ablauf-einzel-lesson-und-intensiv-wochenende.html` (nennt ebenfalls 80 €)
+  6. `blog/stiftung-kostenuebernahme-foerderangebot.html` (nennt 80 €; bis zur
+     Veröffentlichung unter `blog/drafts/`)
   Die llms.txt ist schon zweimal auseinandergelaufen – nie wieder. Bei neuen
   Seiten/Artikeln mit Preisnennung: hier in der Liste ergänzen.
 - **Kein `aggregateRating` im Schema**, solange der Testimonial-Bereich
