@@ -68,6 +68,13 @@
   </url>
   <!-- BLOG_SITEMAP_START -->
   <url>
+    <loc>https://neuroscanbalance-badessen.de/blog/goldene-regel-pause-nach-dem-intensive.html</loc>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://neuroscanbalance-badessen.de/blog/adhs-kind-nervensystem-unruhe.html</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
