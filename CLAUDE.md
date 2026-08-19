@@ -56,11 +56,16 @@ Live: https://neuroscanbalance-badessen.de · Hosting: All-Inkl (FTP) · Deploy:
 - **`Bilder/` (Rohfotos, ~130 MB)** existiert nur lokal beim Kunden –
   per `.gitignore` und Deploy-exclude ausgeschlossen. Nie einchecken.
 - Web-Bilder liegen unter `assets/img/`, Hero-Slides unter `assets/img/hero/`.
-- **Google Fonts werden per `<link rel="preconnect">` + `<link rel="stylesheet">`
-  im HTML-`<head>` geladen** (index/impressum/datenschutz), NICHT per `@import`
-  in der CSS – schneller, kein render-blockierender Wasserfall. Nicht zurück
-  auf `@import` stellen. Bei neuen HTML-Seiten dieselben zwei preconnects +
-  den Font-Link mitnehmen.
+- **Schriften werden selbst gehostet** (`assets/fonts/`, `@font-face` ganz oben
+  in `style.v3.css`) – NIE wieder über `fonts.googleapis.com` einbinden.
+  Beim Laden von der Google-CDN geht die IP jedes Besuchers ohne Einwilligung
+  an Google in die USA (vgl. LG München I, 20.01.2022, Az. 3 O 17493/20;
+  seitdem Abmahnwelle). Inter und Caveat stehen unter der SIL Open Font
+  License, Self-Hosting ist erlaubt. Neue HTML-Seiten brauchen daher **keine**
+  preconnects und keinen Font-Link mehr, nur `style.v3.css`. Wird ein neuer
+  Schriftschnitt gebraucht, die `.woff2` nach `assets/fonts/` legen und einen
+  `@font-face`-Block ergänzen – `unicode-range` beibehalten, damit der Browser
+  nur lädt, was er braucht.
 - **SEO-Head-Standard** (schon gesetzt, so lassen): `robots` mit
   `max-image-preview:large`, `theme-color`, `geo.*`-Meta, vollständige
   Open-Graph- + Twitter-Card-Tags, JSON-LD mit LocalBusiness + WebSite +
