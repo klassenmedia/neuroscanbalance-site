@@ -1,16 +1,4 @@
 {
   "_hinweis": "Blog-Planer. Jeder Eintrag = ein fertiger Entwurf unter blog/drafts/<slug>.html, der automatisch am 'publish'-Datum live geht. Datum im Format JJJJ-MM-TT. Reihenfolge egal. Wer schon veröffentlicht ist, wird aus dieser Liste automatisch entfernt.",
-  "posts": [
-    {
-      "slug": "stiftung-kostenuebernahme-foerderangebot",
-      "publish": "2026-09-04",
-      "title": "Wenn die Kasse nicht zahlt: Stiftungen als Möglichkeit",
-      "category": "Kosten",
-      "image": "slide-4.webp",
-      "imageAlt": "Willi Klassen arbeitet mit sanften Impulsen an einem liegenden Kleinkind",
-      "excerpt": "NeuroScanBalance ist Selbstzahlerleistung. Wie eine Stiftungsanfrage abläuft und wobei ich dabei helfe.",
-      "dateLabel": "4. September 2026",
-      "readMin": 4
-    }
-  ]
+  "posts": []
 }
