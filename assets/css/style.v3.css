@@ -319,6 +319,10 @@ h2.section-title{font-size:2.2rem;font-weight:800;color:var(--navy);line-height:
 .testimonials .section-label{color:rgba(255,255,255,.45);}
 .testimonials h2.section-title{color:#fff;}
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem;}
+/* Solange es nur einen Bericht gibt: eine zentrierte Karte statt 3er-Raster.
+   Bei drei Karten die Klasse testi-single im HTML entfernen. */
+.testi-grid.testi-single{grid-template-columns:minmax(0,1fr);max-width:760px;margin-left:auto;margin-right:auto;}
+.testi-card p:last-of-type{margin-bottom:1.2rem;}
 .testi-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.6rem;}
 .testi-q{font-size:3rem;color:rgba(255,255,255,.15);line-height:.9;margin-bottom:.5rem;font-family:Georgia,serif;}
 .testi-card p{font-size:14.5px;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:1rem;font-style:italic;}
