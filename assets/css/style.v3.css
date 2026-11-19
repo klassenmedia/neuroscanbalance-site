@@ -545,6 +545,16 @@ details[open] .faq-plus svg{transform:rotate(45deg);}
 .intensiv-dates li.int-offen .int-datum::after{content:"›";margin-left:.55rem;color:#f0a868;font-weight:800;font-size:1.2em;position:relative;top:.05em;}
 /* Vergangene Termine: bleiben als Historie sichtbar, aber gedimmt */
 .intensiv-dates li.int-vorbei{opacity:.4;}
+/* Aufklappbares Archiv der vergangenen Intensive-Termine (per JS befuellt) */
+.int-archiv{margin-bottom:1.1rem;}
+.int-archiv summary{cursor:pointer;color:rgba(255,255,255,.55);font-size:13px;font-weight:600;
+  padding:.5rem 0;list-style:none;display:flex;align-items:center;gap:.5rem;}
+.int-archiv summary::-webkit-details-marker{display:none;}
+.int-archiv summary::before{content:"›";display:inline-block;color:#f0a868;font-weight:800;
+  font-size:1.15em;transition:transform .15s ease;}
+.int-archiv[open] summary::before{transform:rotate(90deg);}
+.int-archiv summary:hover{color:rgba(255,255,255,.85);}
+.int-archiv ul{margin:.4rem 0 1rem;}
 .intensiv-hint{margin-top:1.1rem;font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.5;}
 .intensiv-hint strong{color:#f0a868;font-weight:700;}
 

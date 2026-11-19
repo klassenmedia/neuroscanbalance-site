@@ -143,4 +143,21 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
   });
   var hint = document.getElementById('intensiv-hint');
   if(hint && offen > 0){ hint.hidden = false; }
+
+  /* Vergangene Termine einklappen: Sie bleiben erreichbar (sie zeigen, wie
+     regelmaessig Intensives stattfinden), machen die Liste aber nicht mehr
+     unnoetig lang. Wird hier im Browser gebaut, damit sich die Aufteilung
+     mit dem Datum von selbst verschiebt. */
+  var vorbei = liste.querySelectorAll('li.int-vorbei');
+  if(vorbei.length){
+    var box = document.createElement('details');
+    box.className = 'int-archiv';
+    var titel = document.createElement('summary');
+    titel.textContent = 'Bereits stattgefundene Termine (' + vorbei.length + ')';
+    box.appendChild(titel);
+    var ul = document.createElement('ul');
+    Array.prototype.forEach.call(vorbei, function(li){ ul.appendChild(li); });
+    box.appendChild(ul);
+    liste.parentNode.insertBefore(box, liste);
+  }
 })();
