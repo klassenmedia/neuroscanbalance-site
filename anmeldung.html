@@ -46,18 +46,25 @@
           <label for="intensive">Ort &amp; Termin <span class="req">*</span></label>
           <select id="intensive" name="intensive" required>
             <option value="" selected disabled>Bitte auswählen …</option>
-            <option value="Wesel · 21.08. – 23.08.2026" data-key="w-0821">Wesel · 21.08. – 23.08.2026</option>
-            <option value="Paderborn · 25.09. – 27.09.2026" data-key="pb-0925">Paderborn · 25.09. – 27.09.2026</option>
-            <option value="Bad Essen · 09.10. – 11.10.2026" data-key="be-1009">Bad Essen · 09.10. – 11.10.2026</option>
-            <option value="Wesel · 16.10. – 18.10.2026" data-key="w-1016">Wesel · 16.10. – 18.10.2026</option>
-            <option value="Paderborn · 06.11. – 08.11.2026" data-key="pb-1106">Paderborn · 06.11. – 08.11.2026</option>
-            <option value="Hamburg · 20.11. – 22.11.2026" data-key="h-1120">Hamburg · 20.11. – 22.11.2026</option>
-            <option value="Bad Essen · 04.12. – 06.12.2026" data-key="be-1204">Bad Essen · 04.12. – 06.12.2026</option>
-            <option value="Paderborn · 29.01. – 31.01.2027" data-key="pb-0129">Paderborn · 29.01. – 31.01.2027</option>
-            <option value="Bad Essen · 19.02. – 21.02.2027" data-key="be-0219">Bad Essen · 19.02. – 21.02.2027</option>
-            <option value="Paderborn · 19.03. – 21.03.2027" data-key="pb-0319">Paderborn · 19.03. – 21.03.2027</option>
+            <option value="Wesel · 21.08. – 23.08.2026" data-key="w-0821" data-end="2026-08-23">Wesel · 21.08. – 23.08.2026</option>
+            <option value="Paderborn · 25.09. – 27.09.2026" data-key="pb-0925" data-end="2026-09-27">Paderborn · 25.09. – 27.09.2026</option>
+            <option value="Bad Essen · 09.10. – 11.10.2026" data-key="be-1009" data-end="2026-10-11">Bad Essen · 09.10. – 11.10.2026</option>
+            <option value="Wesel · 16.10. – 18.10.2026" data-key="w-1016" data-end="2026-10-18">Wesel · 16.10. – 18.10.2026</option>
+            <option value="Paderborn · 06.11. – 08.11.2026" data-key="pb-1106" data-end="2026-11-08">Paderborn · 06.11. – 08.11.2026</option>
+            <option value="Hamburg · 20.11. – 22.11.2026" data-key="h-1120" data-end="2026-11-22">Hamburg · 20.11. – 22.11.2026</option>
+            <option value="Bad Essen · 04.12. – 06.12.2026" data-key="be-1204" data-end="2026-12-06">Bad Essen · 04.12. – 06.12.2026</option>
+            <option value="Göttingen · 15.01. – 17.01.2027" data-key="go-0115" data-end="2027-01-17">Göttingen · 15.01. – 17.01.2027</option>
+            <option value="Paderborn · 29.01. – 31.01.2027" data-key="pb-0129" data-end="2027-01-31">Paderborn · 29.01. – 31.01.2027</option>
+            <option value="Bad Essen · 19.02. – 21.02.2027" data-key="be-0219" data-end="2027-02-21">Bad Essen · 19.02. – 21.02.2027</option>
+            <option value="Balingen · 05.03. – 07.03.2027" data-key="bl-0305" data-end="2027-03-07">Balingen · 05.03. – 07.03.2027</option>
+            <option value="Paderborn · 19.03. – 21.03.2027" data-key="pb-0319" data-end="2027-03-21">Paderborn · 19.03. – 21.03.2027</option>
+            <option value="Wesel · 02.04. – 04.04.2027" data-key="w-0402" data-end="2027-04-04">Wesel · 02.04. – 04.04.2027</option>
+            <option value="Bad Essen · 23.04. – 25.04.2027" data-key="be-0423" data-end="2027-04-25">Bad Essen · 23.04. – 25.04.2027</option>
+            <option value="Paderborn · 21.05. – 23.05.2027" data-key="pb-0521" data-end="2027-05-23">Paderborn · 21.05. – 23.05.2027</option>
+            <option value="Bad Essen · 25.06. – 27.06.2027" data-key="be-0625" data-end="2027-06-27">Bad Essen · 25.06. – 27.06.2027</option>
             <option value="Noch unsicher / anderer Termin">Noch unsicher / anderer Termin</option>
           </select>
+          <p id="termin-vorbei" hidden class="hint" style="color:#b3451f;font-weight:600;">Dieser Termin liegt bereits in der Vergangenheit und kann nicht mehr gebucht werden. Bitte wähle einen der kommenden Termine.</p>
           <span class="hint">Du bist dir noch nicht sicher? Wähle „Noch unsicher" – wir klären das gemeinsam.</span>
         </div>
       </div>
@@ -190,17 +197,41 @@
 </footer>
 
 <script>
-  // Vorauswahl des Termins über ?ort=…&datum=…  oder ?intensive=…
+  // Vergangene Termine sperren + Vorauswahl über ?t=… bzw. ?intensive=…
   (function(){
     var p = new URLSearchParams(location.search);
     var sel = document.getElementById('intensive');
     if(!sel) return;
+
+    // 1. Abgelaufene Termine sperren: sichtbar bleiben sie, buchbar nicht.
+    //    Abgleich mit dem heutigen Datum bei jedem Seitenaufruf, damit die
+    //    Liste nicht von Hand gepflegt werden muss. Gleiche Logik wie die
+    //    Terminliste auf der Startseite (main.js).
+    var heute = new Date(); heute.setHours(0,0,0,0);
+    Array.prototype.slice.call(sel.options).forEach(function(o){
+      var end = o.getAttribute('data-end');
+      if(!end) return;
+      var endDate = new Date(end + 'T23:59:59');
+      if(!isNaN(endDate) && endDate < heute){
+        o.disabled = true;
+        if(o.text.indexOf(' · vorbei') === -1){ o.text = o.text + ' · vorbei'; }
+      }
+    });
+
+    // 2. Vorauswahl aus dem Link - aber nie auf einen abgelaufenen Termin.
     var key = (p.get('t') || '').trim();
     var want = (p.get('intensive') || '').trim();
+    var abgelaufen = false;
     for(var i=0;i<sel.options.length;i++){
       var o = sel.options[i];
-      if(key && o.getAttribute('data-key') === key){ sel.selectedIndex = i; break; }
-      if(want && o.value === want){ sel.selectedIndex = i; break; }
+      if(!((key && o.getAttribute('data-key') === key) ||
+           (want && o.value.indexOf(want) === 0))) continue;
+      if(o.disabled){ abgelaufen = true; break; }
+      sel.selectedIndex = i; break;
+    }
+    if(abgelaufen){
+      var hinweis = document.getElementById('termin-vorbei');
+      if(hinweis){ hinweis.hidden = false; }
     }
     // Fehler-Banner anzeigen, falls von anmeldung.php zurückgeleitet
     if(p.get('fehler') === '1'){
