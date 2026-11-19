@@ -1,4 +1,27 @@
 {
   "_hinweis": "Blog-Planer. Jeder Eintrag = ein fertiger Entwurf unter blog/drafts/<slug>.html, der automatisch am 'publish'-Datum live geht. Datum im Format JJJJ-MM-TT. Reihenfolge egal. Wer schon veröffentlicht ist, wird aus dieser Liste automatisch entfernt.",
-  "posts": []
+  "posts": [
+    {
+      "slug": "frueh-geborenes-kind-entwicklung-nervensystem",
+      "publish": "2026-11-26",
+      "title": "Frühgeboren: Warum das erste Jahr so viel Geduld verlangt",
+      "category": "Für Kinder",
+      "image": "slide-9.webp",
+      "imageAlt": "Willi Klassen bei der sanften Arbeit mit einem Säugling – NeuroScanBalance Bad Essen",
+      "excerpt": "Nach einer Frühgeburt vergleichen Eltern unweigerlich. Was das korrigierte Alter bedeutet und wo sanfte Impulse ansetzen.",
+      "dateLabel": "26. November 2026",
+      "readMin": 5
+    },
+    {
+      "slug": "seltene-syndrome-rett-ergaenzende-begleitung",
+      "publish": "2026-12-10",
+      "title": "Seltene Syndrome: Was ich anbieten kann und was nicht",
+      "category": "Für Kinder",
+      "image": "slide-8.webp",
+      "imageAlt": "Sanfte motorische Arbeit mit einem Kind am Balance-Element – NeuroScanBalance Bad Essen",
+      "excerpt": "Familien mit einer seltenen Diagnose haben meist alles gelesen. Warum ich hier besonders deutlich keine Heilung verspreche.",
+      "dateLabel": "10. Dezember 2026",
+      "readMin": 5
+    }
+  ]
 }

@@ -76,6 +76,14 @@ for (const p of due) {
 `;
   sitemap = sitemap.replace('<!-- BLOG_SITEMAP_START -->', `<!-- BLOG_SITEMAP_START -->\n${url}`);
 
+  // blogPost-Liste im Blog-Schema mitpflegen. Ohne das laeuft das JSON-LD der
+  // Uebersichtsseite mit der Zeit auseinander (ist schon einmal passiert:
+  // 7 Eintraege im Schema bei 12 veroeffentlichten Beitraegen).
+  index = index.replace(
+    /("blogPost": \[)/,
+    `$1\n          {"@type": "BlogPosting", "headline": ${JSON.stringify(p.title)}, "url": "https://neuroscanbalance-badessen.de/blog/${p.slug}.html", "datePublished": "${p.publish}", "author": {"@type": "Person", "name": "Willi Klassen"}},`
+  );
+
   publishedSlugs.push(p.slug);
   console.log(`✓ veröffentlicht: ${p.slug} (geplant für ${p.publish})`);
 }
